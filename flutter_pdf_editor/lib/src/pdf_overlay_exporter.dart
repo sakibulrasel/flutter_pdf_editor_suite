@@ -8,28 +8,38 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 import 'package:pdf_renderer_bridge/pdf_renderer_bridge.dart';
 
+/// Progress callback used during multi-page flattened export.
 typedef PdfExportProgressCallback = void Function(PdfExportProgress progress);
 
+/// Progress snapshot reported while exporting.
 final class PdfExportProgress {
+  /// Creates export progress information.
   const PdfExportProgress({
     required this.completedPages,
     required this.totalPages,
   });
 
+  /// Number of completed pages.
   final int completedPages;
+
+  /// Total page count.
   final int totalPages;
 }
 
+/// Cancellation token checked during long-running exports.
 final class PdfExportCancellationToken {
+  /// Whether cancellation has been requested.
   bool get isCancelled => _isCancelled;
 
   bool _isCancelled = false;
 
+  /// Requests cancellation.
   void cancel() {
     _isCancelled = true;
   }
 }
 
+/// Error thrown when an export operation is cancelled.
 class PdfExportCancelledException implements Exception {
   const PdfExportCancelledException();
 
@@ -37,16 +47,21 @@ class PdfExportCancelledException implements Exception {
   String toString() => 'PdfExportCancelledException';
 }
 
+/// Error thrown when exported output validation fails.
 class PdfExportValidationException implements Exception {
+  /// Creates a validation exception with a readable message.
   const PdfExportValidationException(this.message);
 
+  /// Human-readable validation message.
   final String message;
 
   @override
   String toString() => 'PdfExportValidationException: $message';
 }
 
+/// Options controlling flattened PDF export.
 final class PdfExportOptions {
+  /// Creates export options.
   const PdfExportOptions({
     this.renderScale = 2.0,
     this.maxPagePixelCount = 4 * 1000 * 1000,
@@ -58,26 +73,40 @@ final class PdfExportOptions {
          'maxPagePixelCount must be greater than zero',
        );
 
+  /// Base page render scale used before clamping.
   final double renderScale;
+
+  /// Maximum pixel count allowed for a rendered page.
   final int maxPagePixelCount;
+
+  /// Whether exported bytes should be reopened for validation.
   final bool validateOutput;
+
+  /// Optional custom Unicode-capable font bytes.
   final Uint8List? unicodeFontBytes;
 }
 
+/// Rendering backend required by [PdfOverlayExporter].
 abstract interface class PdfExportRenderer {
+  /// Opens a PDF source.
   Future<PdfDocumentInfo> openDocument(PdfDocumentSource source);
 
+  /// Returns page metadata.
   Future<PdfPageInfo> getPageInfo({
     required int documentId,
     required int pageIndex,
   });
 
+  /// Renders a page bitmap.
   Future<PdfRenderedPage> renderPage(PdfRenderRequest request);
 
+  /// Closes an opened document.
   Future<void> closeDocument(int documentId);
 }
 
+/// Default export renderer backed by `pdf_renderer_bridge`.
 final class PdfBridgeExportRenderer implements PdfExportRenderer {
+  /// Creates a bridge-based export renderer.
   PdfBridgeExportRenderer([PdfRendererBridge? bridge])
     : _bridge = bridge ?? PdfRendererBridge();
 
@@ -107,12 +136,15 @@ final class PdfBridgeExportRenderer implements PdfExportRenderer {
   }
 }
 
+/// Produces flattened PDF exports with overlays and visible form values burned in.
 final class PdfOverlayExporter {
+  /// Creates a flattened exporter.
   PdfOverlayExporter({PdfExportRenderer? renderer})
     : _renderer = renderer ?? PdfBridgeExportRenderer();
 
   final PdfExportRenderer _renderer;
 
+  /// Exports a flattened PDF as bytes.
   Future<Uint8List> exportToBytes({
     required PdfDocumentSource source,
     required List<PdfOverlayItem> overlays,
@@ -197,6 +229,7 @@ final class PdfOverlayExporter {
     }
   }
 
+  /// Writes a flattened PDF file to [outputPath].
   Future<File> exportToFile({
     required PdfDocumentSource source,
     required List<PdfOverlayItem> overlays,

@@ -1,3 +1,4 @@
+/// Core data models shared across the PDF viewer, editor, and renderer layers.
 library;
 
 export 'src/pdf_checkmark_overlay.dart';

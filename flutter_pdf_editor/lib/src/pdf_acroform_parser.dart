@@ -5,7 +5,9 @@ import 'dart:typed_data';
 
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
+/// Lightweight parser for extracting common AcroForm field types from a PDF.
 final class PdfAcroFormParser {
+  /// Parses form fields from a [source] PDF.
   Future<List<PdfFormField>> parse(PdfDocumentSource source) async {
     final bytes = switch (source.type) {
       PdfDocumentSourceType.bytes => source.bytes!,
@@ -14,6 +16,7 @@ final class PdfAcroFormParser {
     return parseBytes(bytes);
   }
 
+  /// Parses form fields directly from raw PDF [bytes].
   List<PdfFormField> parseBytes(Uint8List bytes) {
     final document = _PdfObjectIndex.fromBytes(bytes);
     final acroFormRef = document.catalog.getRef('AcroForm');

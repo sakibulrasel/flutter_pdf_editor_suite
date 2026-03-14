@@ -20,7 +20,7 @@ Add the package:
 
 ```yaml
 dependencies:
-  flutter_pdf_editor_viewer: ^0.0.1
+  flutter_pdf_editor_viewer: ^0.0.2
 ```
 
 ## Usage
@@ -28,7 +28,6 @@ dependencies:
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_pdf_editor_viewer/flutter_pdf_editor_viewer.dart';
-import 'package:pdf_engine_core/pdf_engine_core.dart';
 
 class SampleViewer extends StatelessWidget {
   const SampleViewer({super.key});
@@ -46,3 +45,6 @@ class SampleViewer extends StatelessWidget {
 
 Use this package when you need PDF viewing without the higher-level editing
 tooling in `flutter_pdf_editor`.
+
+The main library re-exports the core PDF types used by the viewer, so most apps
+only need a single direct dependency and a single import.

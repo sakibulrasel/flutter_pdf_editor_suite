@@ -1,7 +1,9 @@
 import 'pdf_form_field.dart';
 import 'pdf_rect.dart';
 
+/// Text-entry AcroForm field.
 final class PdfTextFormField extends PdfFormField {
+  /// Creates a text field model.
   const PdfTextFormField({
     required super.id,
     required super.name,
@@ -13,13 +15,19 @@ final class PdfTextFormField extends PdfFormField {
     super.isReadOnly = false,
   });
 
+  /// Current text value.
   final String value;
+
+  /// Default text value from the original PDF, if available.
   final String defaultValue;
+
+  /// Whether the field accepts multiple lines.
   final bool isMultiline;
 
   @override
   PdfFormFieldType get type => PdfFormFieldType.text;
 
+  /// Returns a copy of this field with updated values.
   PdfTextFormField copyWith({
     String? id,
     String? name,

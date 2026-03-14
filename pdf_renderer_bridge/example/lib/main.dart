@@ -7,7 +7,6 @@ import 'package:flutter_pdf_editor/flutter_pdf_editor.dart';
 import 'package:flutter_pdf_editor_viewer/flutter_pdf_editor_viewer.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf_engine_core/pdf_engine_core.dart';
 import 'package:pdf_renderer_bridge/pdf_renderer_bridge.dart';
 import 'package:share_plus/share_plus.dart';
 

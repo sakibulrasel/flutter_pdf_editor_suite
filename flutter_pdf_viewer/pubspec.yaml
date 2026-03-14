@@ -1,6 +1,6 @@
 name: flutter_pdf_editor_viewer
 description: Flutter PDF viewer widgets built on top of pdf_renderer_bridge with zoom, paging, page overlays, and tap handling.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/sakibulrasel/flutter_pdf_editor_suite
 repository: https://github.com/sakibulrasel/flutter_pdf_editor_suite.git
 issue_tracker: https://github.com/sakibulrasel/flutter_pdf_editor_suite/issues

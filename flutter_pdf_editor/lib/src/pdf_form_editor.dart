@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdf_editor_viewer/flutter_pdf_editor_viewer.dart';
+// Needed for lower-bound compatibility with flutter_pdf_editor_viewer 0.0.1.
+// ignore: unnecessary_import
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
 import 'pdf_acroform_parser.dart';
@@ -13,7 +15,9 @@ import 'signature_pad_dialog.dart';
 
 const bool _showDebugFieldOverlay = false;
 
+/// Acrobat-style editor for interactive AcroForm PDFs.
 class PdfFormEditor extends StatefulWidget {
+  /// Creates a form editor bound to a PDF [source] and [controller].
   const PdfFormEditor({
     required this.source,
     required this.controller,
@@ -23,10 +27,19 @@ class PdfFormEditor extends StatefulWidget {
     this.maxZoom = 3,
   });
 
+  /// Source PDF to display.
   final PdfDocumentSource source;
+
+  /// Controller storing editable field state.
   final PdfFormEditorController controller;
+
+  /// Optional viewer controller.
   final PdfViewerController? viewerController;
+
+  /// Initial zoom level.
   final double initialZoom;
+
+  /// Maximum allowed zoom level.
   final double maxZoom;
 
   @override

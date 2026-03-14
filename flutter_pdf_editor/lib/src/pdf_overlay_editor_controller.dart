@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
+/// Tool modes available in the overlay authoring editor.
 enum PdfOverlayTool { text, checkmark, signature, rectangle, image }
 
+/// Controller for freeform PDF overlay authoring.
 class PdfOverlayEditorController extends ChangeNotifier {
   final List<PdfOverlayItem> _overlays = <PdfOverlayItem>[];
   final List<_OverlayEditorSnapshot> _undoStack = <_OverlayEditorSnapshot>[];
@@ -14,18 +16,27 @@ class PdfOverlayEditorController extends ChangeNotifier {
   _OverlayEditorSnapshot? _interactionStartSnapshot;
   bool _isRestoringState = false;
 
+  /// All current overlay items.
   List<PdfOverlayItem> get overlays =>
       List<PdfOverlayItem>.unmodifiable(_overlays);
 
+  /// Currently selected overlay identifier, if any.
   String? get selectedOverlayId => _selectedOverlayId;
 
+  /// Currently active authoring tool.
   PdfOverlayTool get activeTool => _activeTool;
+
+  /// Whether undo is available.
   bool get canUndo => _undoStack.isNotEmpty;
+
+  /// Whether redo is available.
   bool get canRedo => _redoStack.isNotEmpty;
 
+  /// Currently selected overlay item, if any.
   PdfOverlayItem? get selectedOverlay =>
       _selectedOverlayId == null ? null : _findOverlayById(_selectedOverlayId!);
 
+  /// Sets the active authoring tool.
   void setActiveTool(PdfOverlayTool tool) {
     if (_activeTool == tool) {
       return;
@@ -35,6 +46,7 @@ class PdfOverlayEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Serializes current overlay state to a JSON-compatible map.
   Map<String, Object?> serializeState() {
     return <String, Object?>{
       'activeTool': _activeTool.name,
@@ -44,10 +56,12 @@ class PdfOverlayEditorController extends ChangeNotifier {
     };
   }
 
+  /// Serializes current overlay state to JSON text.
   String serializeStateJson() {
     return jsonEncode(serializeState());
   }
 
+  /// Restores overlay state from a serialized map.
   void restoreState(Map<String, Object?> state) {
     _pushUndoSnapshot();
     _applySerializedState(state);
@@ -55,6 +69,7 @@ class PdfOverlayEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Restores overlay state from JSON text.
   void restoreStateJson(String json) {
     final decoded = jsonDecode(json);
     if (decoded is! Map) {
@@ -63,6 +78,7 @@ class PdfOverlayEditorController extends ChangeNotifier {
     restoreState(Map<String, Object?>.from(decoded.cast<Object?, Object?>()));
   }
 
+  /// Undoes the last change.
   void undo() {
     if (_undoStack.isEmpty) {
       return;
@@ -73,6 +89,7 @@ class PdfOverlayEditorController extends ChangeNotifier {
     _restoreSnapshot(snapshot);
   }
 
+  /// Redoes the last undone change.
   void redo() {
     if (_redoStack.isEmpty) {
       return;

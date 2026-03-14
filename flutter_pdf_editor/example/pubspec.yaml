@@ -1,0 +1,14 @@
+name: flutter_pdf_editor_example
+publish_to: 'none'
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_pdf_editor:
+    path: ..
+
+flutter:
+  uses-material-design: true

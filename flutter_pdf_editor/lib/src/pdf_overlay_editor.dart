@@ -2,12 +2,16 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdf_editor_viewer/flutter_pdf_editor_viewer.dart';
+// Needed for lower-bound compatibility with flutter_pdf_editor_viewer 0.0.1.
+// ignore: unnecessary_import
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
 import 'pdf_overlay_editor_controller.dart';
 import 'signature_pad_dialog.dart';
 
+/// Freeform overlay editor for blank-document authoring and annotations.
 class PdfOverlayEditor extends StatefulWidget {
+  /// Creates an overlay editor bound to a PDF [source] and [controller].
   const PdfOverlayEditor({
     required this.source,
     required this.controller,
@@ -19,12 +23,25 @@ class PdfOverlayEditor extends StatefulWidget {
     this.onPickImageBytes,
   });
 
+  /// Source PDF to display.
   final PdfDocumentSource source;
+
+  /// Controller storing overlay state.
   final PdfOverlayEditorController controller;
+
+  /// Optional viewer controller.
   final PdfViewerController? viewerController;
+
+  /// Initial zoom level.
   final double initialZoom;
+
+  /// Maximum allowed zoom level.
   final double maxZoom;
+
+  /// Optional initial signature image.
   final Uint8List? initialSignaturePngBytes;
+
+  /// Optional callback used to pick image bytes for the image tool.
   final Future<Uint8List?> Function()? onPickImageBytes;
 
   @override

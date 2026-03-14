@@ -1,7 +1,9 @@
 import 'pdf_overlay_item.dart';
 import 'pdf_rect.dart';
 
+/// Rectangle shape overlay placed on a PDF page.
 final class PdfRectangleOverlay extends PdfOverlayItem {
+  /// Creates a rectangle overlay.
   PdfRectangleOverlay({
     required super.id,
     required super.pageIndex,
@@ -10,11 +12,13 @@ final class PdfRectangleOverlay extends PdfOverlayItem {
     super.rotation = 0,
   });
 
+  /// ARGB fill or stroke color used for the rectangle.
   final int color;
 
   @override
   PdfOverlayType get type => PdfOverlayType.rectangle;
 
+  /// Returns a copy of this overlay with updated values.
   PdfRectangleOverlay copyWith({
     String? id,
     int? pageIndex,

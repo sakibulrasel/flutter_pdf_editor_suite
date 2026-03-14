@@ -1,7 +1,9 @@
+/// High-level PDF editing widgets, controllers, parsers, and export helpers.
 library;
 
 export 'src/pdf_acroform_parser.dart';
 export 'src/pdf_document_creator.dart';
+export 'src/pdf_editor_screen.dart';
 export 'src/pdf_editable_exporter.dart';
 export 'src/pdf_form_editor.dart';
 export 'src/pdf_form_editor_controller.dart';

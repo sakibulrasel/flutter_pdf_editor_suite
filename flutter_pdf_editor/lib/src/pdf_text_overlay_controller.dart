@@ -1,16 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
+/// Controller specialized for text-only overlay editing.
 class PdfTextOverlayController extends ChangeNotifier {
   final List<PdfTextOverlay> _overlays = <PdfTextOverlay>[];
   int _nextOverlayId = 1;
   String? _selectedOverlayId;
 
+  /// Current text overlays.
   List<PdfTextOverlay> get overlays =>
       List<PdfTextOverlay>.unmodifiable(_overlays);
 
+  /// Selected overlay identifier, if any.
   String? get selectedOverlayId => _selectedOverlayId;
 
+  /// Adds a new text overlay and selects it.
   PdfTextOverlay addOverlay({
     required int pageIndex,
     required PdfPoint pdfPosition,
@@ -39,6 +43,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     return overlay;
   }
 
+  /// Selects an overlay by id, or clears selection with `null`.
   void selectOverlay(String? overlayId) {
     if (_selectedOverlayId == overlayId) {
       return;
@@ -47,6 +52,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Replaces an existing overlay value.
   void updateOverlay(PdfTextOverlay overlay) {
     final index = _overlays.indexWhere((item) => item.id == overlay.id);
     if (index == -1) {
@@ -56,6 +62,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Moves a text overlay within page bounds.
   void moveOverlay({
     required String overlayId,
     required double deltaX,
@@ -75,6 +82,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     );
   }
 
+  /// Updates the selected overlay text.
   void updateSelectedText(String text) {
     final overlay = selectedOverlay;
     if (overlay == null) {
@@ -83,6 +91,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     updateOverlay(overlay.copyWith(text: text));
   }
 
+  /// Updates the selected overlay font size.
   void updateSelectedFontSize(double fontSize) {
     final overlay = selectedOverlay;
     if (overlay == null) {
@@ -91,6 +100,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     updateOverlay(overlay.copyWith(fontSize: fontSize));
   }
 
+  /// Updates the selected overlay color.
   void updateSelectedColor(int color) {
     final overlay = selectedOverlay;
     if (overlay == null) {
@@ -99,6 +109,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     updateOverlay(overlay.copyWith(color: color));
   }
 
+  /// Deletes the selected overlay.
   void deleteSelected() {
     final overlayId = _selectedOverlayId;
     if (overlayId == null) {
@@ -109,6 +120,7 @@ class PdfTextOverlayController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Selected text overlay, if any.
   PdfTextOverlay? get selectedOverlay =>
       _selectedOverlayId == null ? null : _findOverlayById(_selectedOverlayId!);
 

@@ -7,6 +7,7 @@ import 'package:pdf_renderer_bridge/pdf_renderer_bridge.dart';
 
 import 'pdf_viewer_controller.dart';
 
+/// Builds a widget layered on top of a rendered PDF page.
 typedef PdfPageOverlayBuilder =
     Widget? Function(
       BuildContext context,
@@ -14,7 +15,9 @@ typedef PdfPageOverlayBuilder =
       PdfPageViewport viewport,
     );
 
+/// Scrollable multi-page PDF viewer with zoom and overlay support.
 class PdfViewer extends StatefulWidget {
+  /// Creates a PDF viewer for [source].
   const PdfViewer({
     required this.source,
     super.key,
@@ -35,17 +38,40 @@ class PdfViewer extends StatefulWidget {
        assert(cacheExtent >= 0),
        assert(maxCachedPages > 0);
 
+  /// Source PDF document displayed by the viewer.
   final PdfDocumentSource source;
+
+  /// Optional controller used to observe and manipulate viewer state.
   final PdfViewerController? controller;
+
+  /// Initial zoom level used when the viewer is first shown.
   final double initialZoom;
+
+  /// Minimum allowed zoom level.
   final double minZoom;
+
+  /// Maximum allowed zoom level.
   final double maxZoom;
+
+  /// Number of pages around the viewport to prebuild.
   final int cacheExtent;
+
+  /// Maximum number of rendered page images kept in memory.
   final int maxCachedPages;
+
+  /// Called when the current visible page changes. Page numbers are 1-based.
   final ValueChanged<int>? onPageChanged;
+
+  /// Called when a page is tapped, with both screen and PDF coordinates.
   final ValueChanged<PdfPageTapDetails>? onPageTap;
+
+  /// Optional builder for widgets rendered above each page.
   final PdfPageOverlayBuilder? pageOverlayBuilder;
+
+  /// Optional widget shown while the document is loading.
   final Widget? loading;
+
+  /// Optional error widget builder used when the document fails to load.
   final Widget Function(BuildContext context, Object error)? errorBuilder;
 
   @override

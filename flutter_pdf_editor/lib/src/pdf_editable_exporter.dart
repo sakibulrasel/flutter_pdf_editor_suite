@@ -3,16 +3,21 @@ import 'dart:typed_data';
 
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
+/// Error thrown when editable PDF write-back cannot be completed.
 class PdfEditableExportException implements Exception {
+  /// Creates an editable export exception.
   const PdfEditableExportException(this.message);
 
+  /// Human-readable error message.
   final String message;
 
   @override
   String toString() => 'PdfEditableExportException: $message';
 }
 
+/// Writes supported form values back into an existing AcroForm PDF.
 final class PdfEditableExporter {
+  /// Exports an editable PDF as bytes.
   Future<Uint8List> exportToBytes({
     required PdfDocumentSource source,
     required List<PdfFormField> formFields,
@@ -24,6 +29,7 @@ final class PdfEditableExporter {
     return _EditablePdfWriter(bytes).applyFields(formFields);
   }
 
+  /// Writes an editable PDF file to [outputPath].
   Future<File> exportToFile({
     required PdfDocumentSource source,
     required List<PdfFormField> formFields,

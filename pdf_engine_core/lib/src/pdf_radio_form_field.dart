@@ -1,7 +1,9 @@
 import 'pdf_form_field.dart';
 import 'pdf_rect.dart';
 
+/// One widget option inside a radio-button group.
 final class PdfRadioFormField extends PdfFormField {
+  /// Creates a radio-button field model.
   const PdfRadioFormField({
     required super.id,
     required super.name,
@@ -13,13 +15,19 @@ final class PdfRadioFormField extends PdfFormField {
     super.isReadOnly = false,
   });
 
+  /// Shared group name that links sibling radio options.
   final String groupName;
+
+  /// Export value associated with this option.
   final String optionValue;
+
+  /// Whether this radio option is currently selected.
   final bool isSelected;
 
   @override
   PdfFormFieldType get type => PdfFormFieldType.radio;
 
+  /// Returns a copy of this field with updated values.
   PdfRadioFormField copyWith({
     String? id,
     String? name,

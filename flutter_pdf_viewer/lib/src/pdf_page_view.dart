@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 import 'package:pdf_renderer_bridge/pdf_renderer_bridge.dart';
 
+/// Renders a single PDF page as an image widget.
 class PdfPageView extends StatefulWidget {
+  /// Creates a widget that renders one page from a PDF document source.
   const PdfPageView({
     required this.source,
     super.key,
@@ -13,11 +15,22 @@ class PdfPageView extends StatefulWidget {
     this.errorBuilder,
   });
 
+  /// Source document that contains the page to render.
   final PdfDocumentSource source;
+
+  /// Zero-based page index to render from [source].
   final int pageIndex;
+
+  /// Render scale passed to the native PDF renderer.
   final double scale;
+
+  /// Box fit used for the rendered page image.
   final BoxFit fit;
+
+  /// Optional widget shown while the page is loading.
   final Widget? loading;
+
+  /// Optional error widget builder used when page rendering fails.
   final Widget Function(BuildContext context, Object error)? errorBuilder;
 
   @override

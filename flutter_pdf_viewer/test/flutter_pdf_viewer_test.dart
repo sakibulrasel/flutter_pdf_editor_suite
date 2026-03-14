@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pdf_engine_core/pdf_engine_core.dart';
 import 'package:pdf_renderer_bridge/pdf_renderer_bridge_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 

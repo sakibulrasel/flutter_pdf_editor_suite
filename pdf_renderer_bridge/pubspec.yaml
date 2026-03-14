@@ -1,6 +1,6 @@
 name: pdf_renderer_bridge
 description: Flutter plugin bridge for opening PDF documents, reading page metadata, and rendering PDF pages to image bytes.
-version: 0.0.1
+version: 0.0.3
 homepage: https://github.com/sakibulrasel/flutter_pdf_editor_suite
 repository: https://github.com/sakibulrasel/flutter_pdf_editor_suite.git
 issue_tracker: https://github.com/sakibulrasel/flutter_pdf_editor_suite/issues

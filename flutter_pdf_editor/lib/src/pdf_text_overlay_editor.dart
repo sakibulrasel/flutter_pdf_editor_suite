@@ -2,11 +2,15 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdf_editor_viewer/flutter_pdf_editor_viewer.dart';
+// Needed for lower-bound compatibility with flutter_pdf_editor_viewer 0.0.1.
+// ignore: unnecessary_import
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
 import 'pdf_text_overlay_controller.dart';
 
+/// Focused editor for text-only overlays on a PDF page.
 class PdfTextOverlayEditor extends StatefulWidget {
+  /// Creates a text overlay editor.
   const PdfTextOverlayEditor({
     required this.source,
     required this.controller,
@@ -16,10 +20,19 @@ class PdfTextOverlayEditor extends StatefulWidget {
     this.maxZoom = 3,
   });
 
+  /// Source PDF to display.
   final PdfDocumentSource source;
+
+  /// Controller storing text overlay state.
   final PdfTextOverlayController controller;
+
+  /// Optional viewer controller.
   final PdfViewerController? viewerController;
+
+  /// Initial zoom level.
   final double initialZoom;
+
+  /// Maximum allowed zoom level.
   final double maxZoom;
 
   @override

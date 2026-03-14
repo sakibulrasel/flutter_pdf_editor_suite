@@ -1,0 +1,22 @@
+name: flutter_pdf_editor_viewer_example
+publish_to: 'none'
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_pdf_editor_viewer:
+    path: ..
+  flutter_pdf_editor:
+    path: ../../flutter_pdf_editor
+  pdf_renderer_bridge:
+    path: ../../pdf_renderer_bridge
+  file_picker: ^10.3.10
+  open_filex: ^4.7.0
+  path_provider: ^2.1.5
+  share_plus: 11.1.0
+
+flutter:
+  uses-material-design: true

@@ -1,14 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
+/// Mutable controller for parsed PDF form field state.
 class PdfFormEditorController extends ChangeNotifier {
   final List<PdfFormField> _fields = <PdfFormField>[];
   String? _selectedFieldId;
 
+  /// Current form fields.
   List<PdfFormField> get fields => List<PdfFormField>.unmodifiable(_fields);
 
+  /// Selected field identifier, if any.
   String? get selectedFieldId => _selectedFieldId;
 
+  /// Selected field model, if any.
   PdfFormField? get selectedField {
     if (_selectedFieldId == null) {
       return null;
@@ -21,6 +25,7 @@ class PdfFormEditorController extends ChangeNotifier {
     return null;
   }
 
+  /// Replaces the controller field list.
   void setFields(List<PdfFormField> fields) {
     _fields
       ..clear()
@@ -32,6 +37,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Selects a field by id, or clears selection with `null`.
   void selectField(String? fieldId) {
     if (_selectedFieldId == fieldId) {
       return;
@@ -40,6 +46,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates a text field value.
   void updateTextField(String fieldId, String value) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {
@@ -53,6 +60,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Toggles a checkbox field.
   void toggleCheckbox(String fieldId) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {
@@ -66,6 +74,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Selects a radio option and clears other options in the same group.
   void selectRadio(String fieldId) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {
@@ -85,6 +94,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Sets the selected value of a combo box field.
   void selectComboBoxValue(String fieldId, String value) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {
@@ -98,6 +108,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates the selected values of a list box field.
   void selectListBoxValues(String fieldId, List<String> values) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {
@@ -114,6 +125,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Stores a drawn signature image in a signature field.
   void updateSignatureField(String fieldId, Uint8List pngBytes) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {
@@ -127,6 +139,7 @@ class PdfFormEditorController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Clears the stored signature image from a signature field.
   void clearSignatureField(String fieldId) {
     final index = _fields.indexWhere((field) => field.id == fieldId);
     if (index < 0) {

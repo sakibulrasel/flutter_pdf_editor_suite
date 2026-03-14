@@ -177,14 +177,14 @@ packages:
       path: "../../flutter_pdf_editor"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.3"
   flutter_pdf_editor_viewer:
     dependency: "direct main"
     description:
       path: "../../flutter_pdf_viewer"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -411,14 +411,14 @@ packages:
       path: "../../pdf_engine_core"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.0.2"
   pdf_renderer_bridge:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.3"
   petitparser:
     dependency: transitive
     description:

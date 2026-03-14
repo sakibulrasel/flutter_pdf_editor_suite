@@ -1,6 +1,6 @@
 name: flutter_pdf_editor
 description: Flutter PDF editing toolkit with overlay editing, AcroForm editing, flattened export, editable save, and blank-document authoring tools.
-version: 0.0.1
+version: 0.0.5
 homepage: https://github.com/sakibulrasel/flutter_pdf_editor_suite
 repository: https://github.com/sakibulrasel/flutter_pdf_editor_suite.git
 issue_tracker: https://github.com/sakibulrasel/flutter_pdf_editor_suite/issues
@@ -12,10 +12,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_pdf_editor_viewer: ^0.0.1
-  pdf_engine_core: ^1.0.0
-  pdf_renderer_bridge: ^0.0.1
+  flutter_pdf_editor_viewer: ^0.0.2
+  pdf_engine_core: ^1.0.2
+  pdf_renderer_bridge: ^0.0.3
   pdf: ^3.11.3
+  file_picker: ^10.3.10
+  open_filex: ^4.7.0
+  path_provider: ^2.1.5
+  share_plus: ^12.0.1
 
 dev_dependencies:
   flutter_test:

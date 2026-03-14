@@ -2,7 +2,9 @@ import 'pdf_choice_option.dart';
 import 'pdf_form_field.dart';
 import 'pdf_rect.dart';
 
+/// Choice field rendered as a visible list box.
 final class PdfListBoxFormField extends PdfFormField {
+  /// Creates a list box field model.
   const PdfListBoxFormField({
     required super.id,
     required super.name,
@@ -14,10 +16,16 @@ final class PdfListBoxFormField extends PdfFormField {
     super.isReadOnly = false,
   });
 
+  /// Available choice entries for the field.
   final List<PdfChoiceOption> options;
+
+  /// Selected option values.
   final List<String> selectedValues;
+
+  /// Whether multiple selections are allowed.
   final bool isMultiSelect;
 
+  /// User-facing labels for the selected values.
   List<String> get selectedLabels {
     if (selectedValues.isEmpty) {
       return const <String>[];
@@ -37,6 +45,7 @@ final class PdfListBoxFormField extends PdfFormField {
   @override
   PdfFormFieldType get type => PdfFormFieldType.listBox;
 
+  /// Returns a copy of this field with updated values.
   PdfListBoxFormField copyWith({
     String? id,
     String? name,

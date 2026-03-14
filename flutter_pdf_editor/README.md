@@ -25,15 +25,61 @@ Add the package:
 
 ```yaml
 dependencies:
-  flutter_pdf_editor: ^0.0.1
+  flutter_pdf_editor: ^0.0.5
 ```
 
 ## Usage
 
+### High-level screen
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_pdf_editor/flutter_pdf_editor.dart';
-import 'package:pdf_engine_core/pdf_engine_core.dart';
+
+class SampleEditorApp extends StatelessWidget {
+  const SampleEditorApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: PdfEditorScreen(
+        config: PdfEditorConfig(
+          title: 'PDF Editor',
+          initialZoom: 1,
+          maxZoom: 6,
+          helperText: 'Select an existing PDF or create a new one.',
+          actions: {
+            PdfEditorAction.open,
+            PdfEditorAction.create,
+            PdfEditorAction.flatten,
+            PdfEditorAction.editable,
+            PdfEditorAction.saveAs,
+            PdfEditorAction.share,
+            PdfEditorAction.openExportedFile,
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+`PdfEditorScreen` gives apps a ready-made editor that can:
+
+- open an existing PDF
+- create a new blank PDF
+- edit AcroForm fields
+- author blank PDFs with overlays
+- export flattened PDFs
+- export editable PDFs when supported
+- optionally show or hide built-in actions
+- show a configurable helper text or no helper text at all
+
+### Low-level widgets
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_pdf_editor/flutter_pdf_editor.dart';
 
 class SampleEditor extends StatefulWidget {
   const SampleEditor({super.key});
@@ -58,6 +104,8 @@ class _SampleEditorState extends State<SampleEditor> {
 ## Package Role
 
 Use this package when you want editing and export workflows, not just viewing.
+If you want a ready-made screen, start with `PdfEditorScreen`. If you need
+finer control, use the lower-level widgets and controllers directly.
 
 For lower-level layers, see:
 

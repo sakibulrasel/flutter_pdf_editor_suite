@@ -3,9 +3,12 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
+/// Modal signature pad that captures a handwritten signature as PNG bytes.
 class SignaturePadDialog extends StatefulWidget {
+  /// Creates a signature pad dialog.
   const SignaturePadDialog({super.key, this.initialBytes});
 
+  /// Optional existing signature image used as the initial preview.
   final Uint8List? initialBytes;
 
   @override
