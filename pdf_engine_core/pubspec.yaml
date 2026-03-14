@@ -1,0 +1,17 @@
+name: pdf_engine_core
+description: Core PDF document, page, overlay, and form-field models shared across the flutter_pdf_editor_suite packages.
+version: 1.0.0
+homepage: https://github.com/sakibulrasel/flutter_pdf_editor_suite
+repository: https://github.com/sakibulrasel/flutter_pdf_editor_suite.git
+issue_tracker: https://github.com/sakibulrasel/flutter_pdf_editor_suite/issues
+
+environment:
+  sdk: ^3.10.4
+
+# Add regular dependencies here.
+dependencies:
+  # path: ^1.9.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6

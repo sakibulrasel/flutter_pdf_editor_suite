@@ -1,0 +1,7 @@
+dependency_overrides:
+  flutter_pdf_editor_viewer:
+    path: ../flutter_pdf_viewer
+  pdf_engine_core:
+    path: ../pdf_engine_core
+  pdf_renderer_bridge:
+    path: ../pdf_renderer_bridge

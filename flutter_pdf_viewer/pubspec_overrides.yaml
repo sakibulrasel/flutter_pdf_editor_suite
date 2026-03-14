@@ -1,0 +1,5 @@
+dependency_overrides:
+  pdf_engine_core:
+    path: ../pdf_engine_core
+  pdf_renderer_bridge:
+    path: ../pdf_renderer_bridge
