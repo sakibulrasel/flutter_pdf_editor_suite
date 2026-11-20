@@ -4,12 +4,14 @@ import 'dart:typed_data';
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
 /// Error thrown when editable PDF write-back cannot be completed.
-class PdfEditableExportException implements Exception {
+///
+/// When the file uses a feature editable save does not support yet,
+/// [cause] holds the typed reason, for example a
+/// [PdfUnsupportedFeatureException]. Apps usually fall back to flattened
+/// export when they catch this.
+class PdfEditableExportException extends PdfException {
   /// Creates an editable export exception.
-  const PdfEditableExportException(this.message);
-
-  /// Human-readable error message.
-  final String message;
+  const PdfEditableExportException(super.message, {super.cause});
 
   @override
   String toString() => 'PdfEditableExportException: $message';
@@ -24,8 +26,15 @@ final class PdfEditableExporter {
   }) async {
     final bytes = switch (source.type) {
       PdfDocumentSourceType.bytes => source.bytes!,
-      PdfDocumentSourceType.file => await File(source.path!).readAsBytes(),
+      PdfDocumentSourceType.file => await _readFile(source.path!),
     };
+    try {
+      PdfPreflight.inspect(bytes).ensureIncrementallyWritable(
+        operation: 'Editable save',
+      );
+    } on PdfException catch (error) {
+      throw PdfEditableExportException(error.message, cause: error);
+    }
     return _EditablePdfWriter(bytes).applyFields(formFields);
   }
 
@@ -40,6 +49,14 @@ final class PdfEditableExporter {
     await file.parent.create(recursive: true);
     return file.writeAsBytes(bytes, flush: true);
   }
+}
+
+Future<Uint8List> _readFile(String path) async {
+  final file = File(path);
+  if (!await file.exists()) {
+    throw PdfFileNotFoundException(path);
+  }
+  return file.readAsBytes();
 }
 
 final class _EditablePdfWriter {

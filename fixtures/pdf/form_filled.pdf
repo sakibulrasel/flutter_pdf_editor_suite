@@ -1,0 +1,920 @@
+%PDF-1.3
+%‚„œ”
+1 0 obj
+<<
+/Producer (pypdf)
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Count 1
+/Kids [ 4 0 R ]
+>>
+endobj
+3 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+/Outlines 8 0 R
+/AcroForm 38 0 R
+>>
+endobj
+4 0 obj
+<<
+/Contents 5 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+/Annots [ 9 0 R 13 0 R 16 0 R 23 0 R 31 0 R 32 0 R 35 0 R ]
+>>
+endobj
+5 0 obj
+<<
+/Length 308
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F1 12 Tf 14.4 TL ET
+BT 1 0 0 1 72 770 Tm (Name) Tj T* ET
+BT 1 0 0 1 72 730 Tm (Email) Tj T* ET
+BT 1 0 0 1 72 690 Tm (Accept terms) Tj T* ET
+BT 1 0 0 1 72 650 Tm (Contact by) Tj T* ET
+BT 1 0 0 1 72 610 Tm (Country) Tj T* ET
+BT 1 0 0 1 72 570 Tm (Skills) Tj T* ET
+ 
+
+endstream
+endobj
+6 0 obj
+<<
+/F1 7 0 R
+>>
+endobj
+7 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+8 0 obj
+<<
+>>
+endobj
+9 0 obj
+<<
+/AP <<
+/N 10 0 R
+>>
+/BS <<
+/S /S
+/W 1
+>>
+/DA (\057Helv 12 Tf \0561 \0561 \0561 rg)
+/DV ()
+/F 4
+/FT /Tx
+/Ff 0
+/MK <<
+/BC [ 0 0 0 ]
+/BG [ 0.827451 0.827451 0.827451 ]
+>>
+/MaxLen 100
+/P 4 0 R
+/Rect [ 180 760 430 782 ]
+/Subtype /Widget
+/T (full\137name)
+/Type /Annot
+/V (Sakibul Haque)
+>>
+endobj
+10 0 obj
+<<
+/Type /XObject
+/Subtype /Form
+/BBox [ 0.0 0.0 250 22 ]
+/Length 103
+/Resources <<
+/Font <<
+/Helv 11 0 R
+>>
+>>
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+>>
+stream
+q
+/Tx BMC 
+q
+2 1 246.0 20.0 re
+W
+BT
+/Helv 12.0 Tf .1 .1 .1 rg
+2 6.692 Td
+(Sakibul Haque) Tj
+ET
+Q
+EMC
+Q
+
+endstream
+endobj
+11 0 obj
+<<
+/BaseFont /Helvetica
+/Subtype /Type1
+/Name /Helv
+/Type /Font
+/Encoding 12 0 R
+>>
+endobj
+12 0 obj
+<<
+/Type /Encoding
+/Differences [ 24 /breve /caron /circumflex /dotaccent /hungarumlaut /ogonek /ring /tilde 39 /quotesingle 96 /grave 128 /bullet /dagger /daggerdbl /ellipsis /emdash /endash /florin /fraction /guilsinglleft /guilsinglright /minus /perthousand /quotedblbase /quotedblleft /quotedblright /quoteleft /quoteright /quotesinglbase /trademark /fi /fl /Lslash /OE /Scaron /Ydieresis /Zcaron /dotlessi /lslash /oe /scaron /zcaron 160 /Euro 164 /currency 166 /brokenbar 168 /dieresis /copyright /ordfeminine 172 /logicalnot /.notdef /registered /macron /degree /plusminus /twosuperior /threesuperior /acute /mu 183 /periodcentered /cedilla /onesuperior /ordmasculine 188 /onequarter /onehalf /threequarters 192 /Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla /Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis /Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply /Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls /agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla /egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis /eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide /oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis ]
+>>
+endobj
+13 0 obj
+<<
+/AP <<
+/N 14 0 R
+>>
+/BS <<
+/S /S
+/W 1
+>>
+/DA (\057Helv 12 Tf \0561 \0561 \0561 rg)
+/DV ()
+/F 4
+/FT /Tx
+/Ff 0
+/MK <<
+/BC [ 0 0 0 ]
+/BG [ 0.827451 0.827451 0.827451 ]
+>>
+/MaxLen 100
+/P 4 0 R
+/Rect [ 180 720 430 742 ]
+/Subtype /Widget
+/T (email)
+/Type /Annot
+/V (dev\100example\056com)
+>>
+endobj
+14 0 obj
+<<
+/Type /XObject
+/Subtype /Form
+/BBox [ 0.0 0.0 250 22 ]
+/Length 105
+/Resources <<
+/Font <<
+/Helv 11 0 R
+>>
+>>
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+>>
+stream
+q
+/Tx BMC 
+q
+2 1 246.0 20.0 re
+W
+BT
+/Helv 12.0 Tf .1 .1 .1 rg
+2 6.692 Td
+(dev@example.com) Tj
+ET
+Q
+EMC
+Q
+
+endstream
+endobj
+15 0 obj
+<<
+/BaseFont /Helvetica
+/Subtype /Type1
+/Name /Helv
+/Type /Font
+/Encoding 12 0 R
+>>
+endobj
+16 0 obj
+<<
+/AP <<
+/D <<
+/Off 17 0 R
+/Yes 18 0 R
+>>
+/N <<
+/Off 19 0 R
+/Yes 20 0 R
+>>
+/R <<
+/Off 21 0 R
+/Yes 22 0 R
+>>
+>>
+/AS /Off
+/BS <<
+/S /S
+/W 1
+>>
+/F 4
+/FT /Btn
+/Ff 2
+/H /N
+/MK <<
+/BC [ 0.1 0.1 0.1 ]
+/BG [ 0.8 0.843 1 ]
+/CA (4)
+>>
+/P 4 0 R
+/Rect [ 180 685 198 703 ]
+/Subtype /Widget
+/T (accept\137terms)
+/Type /Annot
+/V /Off
+>>
+endobj
+17 0 obj
+<<
+/BBox [ 0 0 18 18 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 80
+>>
+stream
+q
+1 g 1 G .72 .7587 .9 rg 0 0 18 18 re f
+.09 .09 .09 RG 1 w 0.5 0.5 17 17 re s
+Q
+endstream
+endobj
+18 0 obj
+<<
+/BBox [ 0 0 18 18 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 907
+>>
+stream
+q
+1 g 1 G .72 .7587 .9 rg 0 0 18 18 re f
+.09 .09 .09 RG 1 w 0.5 0.5 17 17 re s
+Q
+q .09 .09 .09 rg .09 .09 .09 RG
+10.69471 12.99109 m 12.31922 14.9766 l 13.04123 15.77883 14.66574 16.17994 15.74875 16.17994 c 15.88914 15.85905 l 14.02396 13.65292 l 9.852368 8.137604 l 6.964345 3.665181 l 6.262396 2.461838 l 6.162117 2.261281 6.041783 2.020613 5.841226 1.900279 c 5.580501 1.779944 4.97883 1.779944 4.69805 1.779944 c 4.056267 1.779944 3.915877 1.779944 3.775487 1.880223 c 3.57493 2.020613 3.474652 2.301393 3.334262 2.582173 c 2.893036 3.504735 2.110864 5.510306 2.110864 6.513092 c 2.110864 6.854039 2.311421 7.014485 2.572145 7.194986 c 2.993315 7.495822 3.594986 7.836769 4.116435 7.836769 c 4.517549 7.836769 4.55766 7.495822 4.677994 7.17493 c 5.079109 6.232312 l 5.139276 6.071866 5.319777 5.510306 5.54039 5.510306 c 5.740947 5.510306 5.981616 5.971588 6.061838 6.111978 c 10.69471 12.99109 l h f
+Q
+endstream
+endobj
+19 0 obj
+<<
+/BBox [ 0 0 18 18 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 74
+>>
+stream
+q
+1 g 1 G .8 .843 1 rg 0 0 18 18 re f
+.1 .1 .1 RG 1 w 0.5 0.5 17 17 re s
+Q
+endstream
+endobj
+20 0 obj
+<<
+/BBox [ 0 0 18 18 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 895
+>>
+stream
+q
+1 g 1 G .8 .843 1 rg 0 0 18 18 re f
+.1 .1 .1 RG 1 w 0.5 0.5 17 17 re s
+Q
+q .1 .1 .1 rg .1 .1 .1 RG
+10.69471 12.99109 m 12.31922 14.9766 l 13.04123 15.77883 14.66574 16.17994 15.74875 16.17994 c 15.88914 15.85905 l 14.02396 13.65292 l 9.852368 8.137604 l 6.964345 3.665181 l 6.262396 2.461838 l 6.162117 2.261281 6.041783 2.020613 5.841226 1.900279 c 5.580501 1.779944 4.97883 1.779944 4.69805 1.779944 c 4.056267 1.779944 3.915877 1.779944 3.775487 1.880223 c 3.57493 2.020613 3.474652 2.301393 3.334262 2.582173 c 2.893036 3.504735 2.110864 5.510306 2.110864 6.513092 c 2.110864 6.854039 2.311421 7.014485 2.572145 7.194986 c 2.993315 7.495822 3.594986 7.836769 4.116435 7.836769 c 4.517549 7.836769 4.55766 7.495822 4.677994 7.17493 c 5.079109 6.232312 l 5.139276 6.071866 5.319777 5.510306 5.54039 5.510306 c 5.740947 5.510306 5.981616 5.971588 6.061838 6.111978 c 10.69471 12.99109 l h f
+Q
+endstream
+endobj
+21 0 obj
+<<
+/BBox [ 0 0 18 18 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 79
+>>
+stream
+q
+1 g 1 G .82 .8587 1 rg 0 0 18 18 re f
+.19 .19 .19 RG 1 w 0.5 0.5 17 17 re s
+Q
+endstream
+endobj
+22 0 obj
+<<
+/BBox [ 0 0 18 18 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 906
+>>
+stream
+q
+1 g 1 G .82 .8587 1 rg 0 0 18 18 re f
+.19 .19 .19 RG 1 w 0.5 0.5 17 17 re s
+Q
+q .19 .19 .19 rg .19 .19 .19 RG
+10.69471 12.99109 m 12.31922 14.9766 l 13.04123 15.77883 14.66574 16.17994 15.74875 16.17994 c 15.88914 15.85905 l 14.02396 13.65292 l 9.852368 8.137604 l 6.964345 3.665181 l 6.262396 2.461838 l 6.162117 2.261281 6.041783 2.020613 5.841226 1.900279 c 5.580501 1.779944 4.97883 1.779944 4.69805 1.779944 c 4.056267 1.779944 3.915877 1.779944 3.775487 1.880223 c 3.57493 2.020613 3.474652 2.301393 3.334262 2.582173 c 2.893036 3.504735 2.110864 5.510306 2.110864 6.513092 c 2.110864 6.854039 2.311421 7.014485 2.572145 7.194986 c 2.993315 7.495822 3.594986 7.836769 4.116435 7.836769 c 4.517549 7.836769 4.55766 7.495822 4.677994 7.17493 c 5.079109 6.232312 l 5.139276 6.071866 5.319777 5.510306 5.54039 5.510306 c 5.740947 5.510306 5.981616 5.971588 6.061838 6.111978 c 10.69471 12.99109 l h f
+Q
+endstream
+endobj
+23 0 obj
+<<
+/AP <<
+/D <<
+/Off 24 0 R
+/email 25 0 R
+>>
+/N <<
+/Off 26 0 R
+/email 27 0 R
+>>
+/R <<
+/Off 28 0 R
+/email 29 0 R
+>>
+>>
+/AS /email
+/BS <<
+/S /S
+/W 1
+>>
+/F 4
+/FT /Btn
+/H /N
+/MK <<
+/BC [ 0.1 0.1 0.1 ]
+/BG [ 0.8 0.843 1 ]
+/CA (l)
+>>
+/P 4 0 R
+/Parent 30 0 R
+/Rect [ 180 645 196 661 ]
+/Subtype /Widget
+/Type /Annot
+>>
+endobj
+24 0 obj
+<<
+/BBox [ 0 0 16 16 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 366
+>>
+stream
+q 1 g 1 G .72 .7587 .9 rg
+1 0 0 1 6.4 6.4 cm
+6.4 0 m
+6.4 3.534784 3.534784 6.4 0 6.4 c
+-3.534784 6.4 -6.4 3.534784 -6.4 0 c
+-6.4 -3.534784 -3.534784 -6.4 0 -6.4 c
+3.534784 -6.4 6.4 -3.534784 6.4 0 c
+f
+Q
+q
+.09 .09 .09 RG 1 w
+1 0 0 1 6.4 6.4 cm
+6 0 m
+6 3.31386 3.31386 6 0 6 c
+-3.31386 6 -6 3.31386 -6 0 c
+-6 -3.31386 -3.31386 -6 0 -6 c
+3.31386 -6 6 -3.31386 6 0 c
+s
+Q
+endstream
+endobj
+25 0 obj
+<<
+/BBox [ 0 0 16 16 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 575
+>>
+stream
+q 1 g 1 G .72 .7587 .9 rg
+1 0 0 1 6.4 6.4 cm
+6.4 0 m
+6.4 3.534784 3.534784 6.4 0 6.4 c
+-3.534784 6.4 -6.4 3.534784 -6.4 0 c
+-6.4 -3.534784 -3.534784 -6.4 0 -6.4 c
+3.534784 -6.4 6.4 -3.534784 6.4 0 c
+f
+Q
+q
+.09 .09 .09 RG 1 w
+1 0 0 1 6.4 6.4 cm
+6 0 m
+6 3.31386 3.31386 6 0 6 c
+-3.31386 6 -6 3.31386 -6 0 c
+-6 -3.31386 -3.31386 -6 0 -6 c
+3.31386 -6 6 -3.31386 6 0 c
+s
+Q
+q .09 .09 .09 rg .09 .09 .09 RG
+1 0 0 1 6.4 6.4 cm
+2.8 0 m
+2.8 1.546468 1.546468 2.8 0 2.8 c
+-1.546468 2.8 -2.8 1.546468 -2.8 0 c
+-2.8 -1.546468 -1.546468 -2.8 0 -2.8 c
+1.546468 -2.8 2.8 -1.546468 2.8 0 c
+f
+Q
+endstream
+endobj
+26 0 obj
+<<
+/BBox [ 0 0 16 16 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 360
+>>
+stream
+q 1 g 1 G .8 .843 1 rg
+1 0 0 1 6.4 6.4 cm
+6.4 0 m
+6.4 3.534784 3.534784 6.4 0 6.4 c
+-3.534784 6.4 -6.4 3.534784 -6.4 0 c
+-6.4 -3.534784 -3.534784 -6.4 0 -6.4 c
+3.534784 -6.4 6.4 -3.534784 6.4 0 c
+f
+Q
+q
+.1 .1 .1 RG 1 w
+1 0 0 1 6.4 6.4 cm
+6 0 m
+6 3.31386 3.31386 6 0 6 c
+-3.31386 6 -6 3.31386 -6 0 c
+-6 -3.31386 -3.31386 -6 0 -6 c
+3.31386 -6 6 -3.31386 6 0 c
+s
+Q
+endstream
+endobj
+27 0 obj
+<<
+/BBox [ 0 0 16 16 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 563
+>>
+stream
+q 1 g 1 G .8 .843 1 rg
+1 0 0 1 6.4 6.4 cm
+6.4 0 m
+6.4 3.534784 3.534784 6.4 0 6.4 c
+-3.534784 6.4 -6.4 3.534784 -6.4 0 c
+-6.4 -3.534784 -3.534784 -6.4 0 -6.4 c
+3.534784 -6.4 6.4 -3.534784 6.4 0 c
+f
+Q
+q
+.1 .1 .1 RG 1 w
+1 0 0 1 6.4 6.4 cm
+6 0 m
+6 3.31386 3.31386 6 0 6 c
+-3.31386 6 -6 3.31386 -6 0 c
+-6 -3.31386 -3.31386 -6 0 -6 c
+3.31386 -6 6 -3.31386 6 0 c
+s
+Q
+q .1 .1 .1 rg .1 .1 .1 RG
+1 0 0 1 6.4 6.4 cm
+2.8 0 m
+2.8 1.546468 1.546468 2.8 0 2.8 c
+-1.546468 2.8 -2.8 1.546468 -2.8 0 c
+-2.8 -1.546468 -1.546468 -2.8 0 -2.8 c
+1.546468 -2.8 2.8 -1.546468 2.8 0 c
+f
+Q
+endstream
+endobj
+28 0 obj
+<<
+/BBox [ 0 0 16 16 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 365
+>>
+stream
+q 1 g 1 G .82 .8587 1 rg
+1 0 0 1 6.4 6.4 cm
+6.4 0 m
+6.4 3.534784 3.534784 6.4 0 6.4 c
+-3.534784 6.4 -6.4 3.534784 -6.4 0 c
+-6.4 -3.534784 -3.534784 -6.4 0 -6.4 c
+3.534784 -6.4 6.4 -3.534784 6.4 0 c
+f
+Q
+q
+.19 .19 .19 RG 1 w
+1 0 0 1 6.4 6.4 cm
+6 0 m
+6 3.31386 3.31386 6 0 6 c
+-3.31386 6 -6 3.31386 -6 0 c
+-6 -3.31386 -3.31386 -6 0 -6 c
+3.31386 -6 6 -3.31386 6 0 c
+s
+Q
+endstream
+endobj
+29 0 obj
+<<
+/BBox [ 0 0 16 16 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF ]
+>>
+/Subtype /Form
+/Type /XObject
+/Length 574
+>>
+stream
+q 1 g 1 G .82 .8587 1 rg
+1 0 0 1 6.4 6.4 cm
+6.4 0 m
+6.4 3.534784 3.534784 6.4 0 6.4 c
+-3.534784 6.4 -6.4 3.534784 -6.4 0 c
+-6.4 -3.534784 -3.534784 -6.4 0 -6.4 c
+3.534784 -6.4 6.4 -3.534784 6.4 0 c
+f
+Q
+q
+.19 .19 .19 RG 1 w
+1 0 0 1 6.4 6.4 cm
+6 0 m
+6 3.31386 3.31386 6 0 6 c
+-3.31386 6 -6 3.31386 -6 0 c
+-6 -3.31386 -3.31386 -6 0 -6 c
+3.31386 -6 6 -3.31386 6 0 c
+s
+Q
+q .19 .19 .19 rg .19 .19 .19 RG
+1 0 0 1 6.4 6.4 cm
+2.8 0 m
+2.8 1.546468 1.546468 2.8 0 2.8 c
+-1.546468 2.8 -2.8 1.546468 -2.8 0 c
+-2.8 -1.546468 -1.546468 -2.8 0 -2.8 c
+1.546468 -2.8 2.8 -1.546468 2.8 0 c
+f
+Q
+endstream
+endobj
+30 0 obj
+<<
+/FT /Btn
+/Ff 49154
+/Kids [ 23 0 R 31 0 R ]
+/T (contact\137method)
+/V /email
+>>
+endobj
+31 0 obj
+<<
+/AP <<
+/D <<
+/Off 24 0 R
+/phone 25 0 R
+>>
+/N <<
+/Off 26 0 R
+/phone 27 0 R
+>>
+/R <<
+/Off 28 0 R
+/phone 29 0 R
+>>
+>>
+/AS /Off
+/BS <<
+/S /S
+/W 1
+>>
+/F 4
+/FT /Btn
+/H /N
+/MK <<
+/BC [ 0.1 0.1 0.1 ]
+/BG [ 0.8 0.843 1 ]
+/CA (l)
+>>
+/P 4 0 R
+/Parent 30 0 R
+/Rect [ 240 645 256 661 ]
+/Subtype /Widget
+/Type /Annot
+>>
+endobj
+32 0 obj
+<<
+/AP <<
+/N 33 0 R
+>>
+/BS <<
+/S /S
+/W 1
+>>
+/DA (\057Helv 12 Tf \0561 \0561 \0561 rg)
+/DV (Saudi Arabia)
+/F 4
+/FT /Ch
+/Ff 131072
+/I [ 0 ]
+/MK <<
+/BC [ 0.1 0.1 0.1 ]
+/BG [ 0.8 0.843 1 ]
+>>
+/Opt [ (Saudi Arabia) (Bangladesh) (India) ]
+/P 4 0 R
+/Rect [ 180 600 380 622 ]
+/Subtype /Widget
+/T (country)
+/Type /Annot
+/V (Saudi Arabia)
+>>
+endobj
+33 0 obj
+<<
+/BBox [ 0 0 200 22 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF /Text ]
+/Font <<
+/Helv 34 0 R
+>>
+>>
+/Subtype /Form
+/Type /XObject
+/Length 171
+>>
+stream
+.8 .843 1 rg
+0 0 200 22 re
+f
+.1 .1 .1 RG
+1 w
+0.5 0.5 199 21 re
+s
+/Tx BMC 
+q
+2 2 196 18 re
+W
+n
+0 g
+0 G
+BT
+/Helv 12 Tf
+.1 .1 .1 rg
+1 0 0 1 4 8 Tm
+(Saudi Arabia) Tj
+ET
+Q
+EMC
+
+endstream
+endobj
+34 0 obj
+<<
+/BaseFont /Helvetica
+/Subtype /Type1
+/Name /Helv
+/Type /Font
+/Encoding 12 0 R
+>>
+endobj
+35 0 obj
+<<
+/AP <<
+/N 36 0 R
+>>
+/BS <<
+/S /S
+/W 1
+>>
+/DA (\057Helv 12 Tf \0561 \0561 \0561 rg)
+/DV (Dart)
+/F 4
+/FT /Ch
+/Ff 0
+/I [ 0 ]
+/MK <<
+/BC [ 0.1 0.1 0.1 ]
+/BG [ 0.8 0.843 1 ]
+>>
+/Opt [ (Dart) (Flutter) (PDF) ]
+/P 4 0 R
+/Rect [ 180 520 380 580 ]
+/Subtype /Widget
+/T (skills)
+/Type /Annot
+/V (Dart)
+>>
+endobj
+36 0 obj
+<<
+/BBox [ 0 0 200 60 ]
+/FormType 1
+/Matrix [ 1 0 0 1 0 0 ]
+/Resources <<
+/ProcSet [ /PDF /Text ]
+/Font <<
+/Helv 37 0 R
+>>
+>>
+/Subtype /Form
+/Type /XObject
+/Length 293
+>>
+stream
+.8 .843 1 rg
+0 0 200 60 re
+f
+.1 .1 .1 RG
+1 w
+0.5 0.5 199 59 re
+s
+/Tx BMC 
+q
+2 2 196 56 re
+W
+n
+0.600006 0.756866 0.854904 rg
+2 39.33333 196 18.66667 re
+f
+0 g
+0 G
+BT
+/Helv 12 Tf
+0 g
+4 46 Td
+(Dart) Tj
+ET
+BT
+.1 .1 .1 rg
+4 27.33333 Td
+(Flutter) Tj
+ET
+BT
+.1 .1 .1 rg
+4 8.666667 Td
+(PDF) Tj
+ET
+Q
+EMC
+
+endstream
+endobj
+37 0 obj
+<<
+/BaseFont /Helvetica
+/Subtype /Type1
+/Name /Helv
+/Type /Font
+/Encoding 12 0 R
+>>
+endobj
+38 0 obj
+<<
+/DA (\057Helv 0 Tf 0 g)
+/DR <<
+/Encoding <<
+/RLAFencoding 12 0 R
+>>
+/Font <<
+/Helv 11 0 R
+>>
+>>
+/Fields [ 9 0 R 13 0 R 16 0 R 30 0 R 32 0 R 35 0 R ]
+/NeedAppearances false
+>>
+endobj
+xref
+0 39
+0000000000 65535 f 
+0000000015 00000 n 
+0000000054 00000 n 
+0000000113 00000 n 
+0000000195 00000 n 
+0000000454 00000 n 
+0000000813 00000 n 
+0000000844 00000 n 
+0000000951 00000 n 
+0000000972 00000 n 
+0000001275 00000 n 
+0000001563 00000 n 
+0000001663 00000 n 
+0000002990 00000 n 
+0000003295 00000 n 
+0000003585 00000 n 
+0000003685 00000 n 
+0000004024 00000 n 
+0000004276 00000 n 
+0000005356 00000 n 
+0000005602 00000 n 
+0000006670 00000 n 
+0000006921 00000 n 
+0000008000 00000 n 
+0000008327 00000 n 
+0000008866 00000 n 
+0000009614 00000 n 
+0000010147 00000 n 
+0000010883 00000 n 
+0000011421 00000 n 
+0000012168 00000 n 
+0000012266 00000 n 
+0000012591 00000 n 
+0000012939 00000 n 
+0000013315 00000 n 
+0000013415 00000 n 
+0000013728 00000 n 
+0000014226 00000 n 
+0000014326 00000 n 
+trailer
+<<
+/Size 39
+/Root 3 0 R
+/Info 1 0 R
+>>
+startxref
+14520
+%%EOF

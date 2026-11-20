@@ -64,4 +64,76 @@ void main() {
     expect(rendered.width, 200);
     expect(rendered.pngBytes, <int>[1, 2, 3]);
   });
+
+  group('typed errors', () {
+    void throwFromNative(String code) {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+            throw PlatformException(code: code, message: 'native $code');
+          });
+    }
+
+    test('password_required becomes PdfPasswordRequiredException', () {
+      throwFromNative('password_required');
+      expect(
+        platform.openDocument(const PdfDocumentSource.file('/tmp/a.pdf')),
+        throwsA(isA<PdfPasswordRequiredException>()),
+      );
+    });
+
+    test('file_not_found becomes PdfFileNotFoundException with path', () {
+      throwFromNative('file_not_found');
+      expect(
+        platform.openDocument(const PdfDocumentSource.file('/tmp/a.pdf')),
+        throwsA(
+          isA<PdfFileNotFoundException>().having(
+            (error) => error.path,
+            'path',
+            '/tmp/a.pdf',
+          ),
+        ),
+      );
+    });
+
+    test('invalid_pdf becomes PdfInvalidDocumentException', () {
+      throwFromNative('invalid_pdf');
+      expect(
+        platform.openDocument(const PdfDocumentSource.file('/tmp/a.pdf')),
+        throwsA(isA<PdfInvalidDocumentException>()),
+      );
+    });
+
+    test('other codes become PdfRenderException with the code', () {
+      throwFromNative('pdf_renderer_error');
+      expect(
+        platform.renderPage(
+          const PdfRenderRequest(documentId: 1, pageIndex: 0),
+        ),
+        throwsA(
+          isA<PdfRenderException>().having(
+            (error) => error.code,
+            'code',
+            'pdf_renderer_error',
+          ),
+        ),
+      );
+    });
+
+    test('missing native plugin becomes PdfUnsupportedPlatformException', () {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, null);
+      expect(
+        platform.openDocument(const PdfDocumentSource.file('/tmp/a.pdf')),
+        throwsA(isA<PdfUnsupportedPlatformException>()),
+      );
+    });
+
+    test('all typed errors are PdfExceptions', () {
+      throwFromNative('anything');
+      expect(
+        platform.getPageInfo(documentId: 1, pageIndex: 0),
+        throwsA(isA<PdfException>()),
+      );
+    });
+  });
 }

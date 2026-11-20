@@ -128,13 +128,14 @@ class _PdfRendererDemoScreenState extends State<PdfRendererDemoScreen> {
         _isLoadingDocument = false;
       });
       await _bridge.closeDocument(document.documentId);
-    } on PlatformException catch (error) {
+    } on PdfException catch (error) {
+      // The bridge reports typed errors, e.g. PdfPasswordRequiredException.
       if (!mounted) {
         return;
       }
       setState(() {
         _isLoadingDocument = false;
-        _error = '${error.code}: ${error.message}';
+        _error = '${error.runtimeType}: ${error.message}';
       });
     } catch (error) {
       if (!mounted) {

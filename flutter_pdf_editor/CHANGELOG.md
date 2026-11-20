@@ -1,3 +1,12 @@
+## 0.1.0
+
+- `PdfAcroFormParser` now checks the file first and throws typed exceptions (`PdfUnsupportedFeatureException` for encrypted PDFs, compressed object streams and XFA-only forms; `PdfInvalidDocumentException`; `PdfFileNotFoundException`) instead of crashing with `StateError` or a null-check error.
+- `PdfEditableExporter` rejects files it cannot save incrementally (encrypted, object streams, cross-reference streams) before writing. It still throws `PdfEditableExportException`, now with the typed reason in `cause`, so existing fallbacks to flattened export keep working.
+- `PdfEditableExportException`, `PdfExportCancelledException` and `PdfExportValidationException` now extend `PdfException`.
+- Fixed PDF string escapes in the parser: octal codes such as `\137`, and `\n`, `\r`, `\t`, are decoded. Field names written by tools such as pypdf (`full\137name`) and multi-line values saved by `PdfEditableExporter` now read back correctly.
+- Moved the field-dump script to `tool/print_form_fields.dart`.
+- Raised the Flutter constraint to `>=3.38.0` to match the Dart `^3.10.4` SDK constraint.
+
 ## 0.0.5
 
 - Added configurable `helperText` support to `PdfEditorConfig`.

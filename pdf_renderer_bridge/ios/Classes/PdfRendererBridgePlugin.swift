@@ -32,7 +32,9 @@ public class PdfRendererBridgePlugin: NSObject, FlutterPlugin {
     } catch {
       result(
         FlutterError(
-          code: "pdf_renderer_error",
+          // Stable error codes are mapped to typed Dart exceptions in
+          // MethodChannelPdfRendererBridge.
+          code: (error as? PdfRendererError)?.code ?? "pdf_renderer_error",
           message: error.localizedDescription,
           details: nil
         )
@@ -72,6 +74,13 @@ public class PdfRendererBridgePlugin: NSObject, FlutterPlugin {
         try? FileManager.default.removeItem(at: tempFileUrl)
       }
       throw PdfRendererError.documentOpenFailed
+    }
+
+    if document.isLocked {
+      if let tempFileUrl {
+        try? FileManager.default.removeItem(at: tempFileUrl)
+      }
+      throw PdfRendererError.passwordRequired
     }
 
     let documentId = nextDocumentId
@@ -218,6 +227,7 @@ private struct OpenDocument {
 
 private enum PdfRendererError: LocalizedError {
   case documentOpenFailed
+  case passwordRequired
   case fileNotFound(String)
   case invalidArgument(String)
   case invalidPageIndex(Int)
@@ -225,10 +235,25 @@ private enum PdfRendererError: LocalizedError {
   case unknownDocument(Int)
   case unsupportedSourceType(String)
 
+  var code: String {
+    switch self {
+    case .documentOpenFailed:
+      return "invalid_pdf"
+    case .passwordRequired:
+      return "password_required"
+    case .fileNotFound:
+      return "file_not_found"
+    default:
+      return "pdf_renderer_error"
+    }
+  }
+
   var errorDescription: String? {
     switch self {
     case .documentOpenFailed:
       return "Failed to open the PDF document."
+    case .passwordRequired:
+      return "The PDF document is password protected."
     case let .fileNotFound(path):
       return "PDF file does not exist: \(path)"
     case let .invalidArgument(message):

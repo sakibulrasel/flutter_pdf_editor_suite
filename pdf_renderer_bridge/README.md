@@ -40,6 +40,30 @@ final page = await bridge.renderPage(
 await bridge.closeDocument(document.documentId);
 ```
 
+## Platform Support
+
+| Android | iOS | Web | Windows | macOS | Linux |
+| --- | --- | --- | --- | --- | --- |
+| Yes | Yes | Not yet | Not yet | Not yet | Not yet |
+
+On unsupported platforms every call throws `PdfUnsupportedPlatformException`.
+
+## Error Handling
+
+All errors are typed `PdfException`s from `pdf_engine_core`:
+
+```dart
+try {
+  final document = await bridge.openDocument(source);
+} on PdfPasswordRequiredException {
+  // Ask the user for a password (opening encrypted PDFs is planned).
+} on PdfFileNotFoundException catch (error) {
+  print('Missing file: ${error.path}');
+} on PdfException catch (error) {
+  print(error.message);
+}
+```
+
 ## Package Role
 
 Use this package directly when you want low-level rendering access.

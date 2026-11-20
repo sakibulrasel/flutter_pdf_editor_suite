@@ -101,6 +101,36 @@ class _SampleEditorState extends State<SampleEditor> {
 }
 ```
 
+## Error Handling
+
+Every error is a `PdfException`. Files the editor cannot handle yet are
+rejected up front with a typed reason instead of failing halfway:
+
+```dart
+try {
+  final fields = await PdfAcroFormParser().parse(source);
+} on PdfUnsupportedFeatureException catch (error) {
+  // error.feature: encryption, compressedObjectStreams or xfaForms.
+  print(error.message);
+}
+
+try {
+  await PdfEditableExporter().exportToFile(
+    source: source,
+    formFields: fields,
+    outputPath: path,
+  );
+} on PdfEditableExportException catch (error) {
+  // error.cause holds the typed reason; fall back to flattened export.
+}
+```
+
+Current limits: form parsing and editable save support classic PDFs. PDFs
+saved with compressed object streams (common from Acrobat and Word),
+encrypted PDFs and XFA-only forms are detected and rejected. Flattened export
+renders pages natively, so it still works for PDFs with compressed object
+streams.
+
 ## Package Role
 
 Use this package when you want editing and export workflows, not just viewing.

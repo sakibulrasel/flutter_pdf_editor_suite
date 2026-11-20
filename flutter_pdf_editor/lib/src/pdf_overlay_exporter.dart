@@ -40,20 +40,18 @@ final class PdfExportCancellationToken {
 }
 
 /// Error thrown when an export operation is cancelled.
-class PdfExportCancelledException implements Exception {
-  const PdfExportCancelledException();
+class PdfExportCancelledException extends PdfException {
+  /// Creates a cancellation exception.
+  const PdfExportCancelledException() : super('The export was cancelled.');
 
   @override
   String toString() => 'PdfExportCancelledException';
 }
 
 /// Error thrown when exported output validation fails.
-class PdfExportValidationException implements Exception {
+class PdfExportValidationException extends PdfException {
   /// Creates a validation exception with a readable message.
-  const PdfExportValidationException(this.message);
-
-  /// Human-readable validation message.
-  final String message;
+  const PdfExportValidationException(super.message, {super.cause});
 
   @override
   String toString() => 'PdfExportValidationException: $message';

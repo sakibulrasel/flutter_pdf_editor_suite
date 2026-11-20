@@ -1,19 +1,19 @@
 name: pdf_renderer_bridge
 description: Flutter plugin bridge for opening PDF documents, reading page metadata, and rendering PDF pages to image bytes.
-version: 0.0.3
+version: 0.1.0
 homepage: https://github.com/sakibulrasel/flutter_pdf_editor_suite
 repository: https://github.com/sakibulrasel/flutter_pdf_editor_suite.git
 issue_tracker: https://github.com/sakibulrasel/flutter_pdf_editor_suite/issues
 
 environment:
   sdk: ^3.10.4
-  flutter: '>=3.3.0'
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  pdf_engine_core: ^1.0.0
+  pdf_engine_core: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -38,16 +38,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.pdf_renderer_bridge
+        package: io.github.sakibulrasel.pdf_renderer_bridge
         pluginClass: PdfRendererBridgePlugin
       ios:
         pluginClass: PdfRendererBridgePlugin
-      linux:
-        pluginClass: PdfRendererBridgePlugin
-      macos:
-        pluginClass: PdfRendererBridgePlugin
-      windows:
-        pluginClass: PdfRendererBridgePluginCApi
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

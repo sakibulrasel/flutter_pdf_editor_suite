@@ -12,7 +12,7 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
 
   @override
   Future<PdfDocumentInfo> openDocument(PdfDocumentSource source) async {
-    final result = await methodChannel.invokeMapMethod<Object?, Object?>(
+    final result = await _invokeMap(
       'openDocument',
       <String, Object?>{
         'sourceType': source.type.name,
@@ -22,9 +22,9 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
     );
 
     if (result == null) {
-      throw PlatformException(
+      throw const PdfRenderException(
+        'openDocument returned null.',
         code: 'null_result',
-        message: 'openDocument returned null.',
       );
     }
 
@@ -39,15 +39,15 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
     required int documentId,
     required int pageIndex,
   }) async {
-    final result = await methodChannel.invokeMapMethod<Object?, Object?>(
+    final result = await _invokeMap(
       'getPageInfo',
       <String, Object?>{'documentId': documentId, 'pageIndex': pageIndex},
     );
 
     if (result == null) {
-      throw PlatformException(
+      throw const PdfRenderException(
+        'getPageInfo returned null.',
         code: 'null_result',
-        message: 'getPageInfo returned null.',
       );
     }
 
@@ -61,26 +61,25 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
 
   @override
   Future<PdfRenderedPage> renderPage(PdfRenderRequest request) async {
-    final result = await methodChannel
-        .invokeMapMethod<Object?, Object?>('renderPage', <String, Object?>{
-          'documentId': request.documentId,
-          'pageIndex': request.pageIndex,
-          'scale': request.scale,
-          'backgroundColor': request.backgroundColor,
-        });
+    final result = await _invokeMap('renderPage', <String, Object?>{
+      'documentId': request.documentId,
+      'pageIndex': request.pageIndex,
+      'scale': request.scale,
+      'backgroundColor': request.backgroundColor,
+    });
 
     if (result == null) {
-      throw PlatformException(
+      throw const PdfRenderException(
+        'renderPage returned null.',
         code: 'null_result',
-        message: 'renderPage returned null.',
       );
     }
 
     final pngBytes = result['pngBytes'];
     if (pngBytes is! Uint8List) {
-      throw PlatformException(
+      throw const PdfRenderException(
+        'renderPage did not return pngBytes.',
         code: 'invalid_result',
-        message: 'renderPage did not return pngBytes.',
       );
     }
 
@@ -95,10 +94,62 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
 
   @override
   Future<void> closeDocument(int documentId) {
-    return methodChannel.invokeMethod<void>('closeDocument', <String, Object?>{
-      'documentId': documentId,
-    });
+    return _guard(
+      () => methodChannel.invokeMethod<void>('closeDocument', <String, Object?>{
+        'documentId': documentId,
+      }),
+      path: null,
+    );
   }
+
+  Future<Map<Object?, Object?>?> _invokeMap(
+    String method,
+    Map<String, Object?> arguments,
+  ) {
+    return _guard(
+      () => methodChannel.invokeMapMethod<Object?, Object?>(method, arguments),
+      path: arguments['path'] as String?,
+    );
+  }
+
+  /// Runs a channel call and turns platform errors into typed
+  /// [PdfException]s.
+  Future<T> _guard<T>(Future<T> Function() call, {required String? path}) async {
+    try {
+      return await call();
+    } on MissingPluginException catch (error) {
+      throw PdfUnsupportedPlatformException(_platformName(), cause: error);
+    } on PlatformException catch (error) {
+      throw mapPlatformException(error, path: path);
+    }
+  }
+}
+
+/// Maps a native [PlatformException] to the matching typed [PdfException].
+///
+/// Native code reports stable error codes: `password_required`,
+/// `file_not_found`, `invalid_pdf`, and `pdf_renderer_error` for anything
+/// else.
+@visibleForTesting
+PdfException mapPlatformException(PlatformException error, {String? path}) {
+  final message = error.message ?? 'The PDF renderer failed.';
+  switch (error.code) {
+    case 'password_required':
+      return const PdfPasswordRequiredException();
+    case 'file_not_found':
+      return PdfFileNotFoundException(path ?? message, cause: error);
+    case 'invalid_pdf':
+      return PdfInvalidDocumentException(message, cause: error);
+    default:
+      return PdfRenderException(message, code: error.code, cause: error);
+  }
+}
+
+String _platformName() {
+  if (kIsWeb) {
+    return 'web';
+  }
+  return defaultTargetPlatform.name;
 }
 
 int _readInt(Map<Object?, Object?> values, String key) {
@@ -106,9 +157,9 @@ int _readInt(Map<Object?, Object?> values, String key) {
   if (value is int) {
     return value;
   }
-  throw PlatformException(
+  throw PdfRenderException(
+    'Expected int for "$key", got ${value.runtimeType}.',
     code: 'invalid_result',
-    message: 'Expected int for "$key", got ${value.runtimeType}.',
   );
 }
 
@@ -120,8 +171,8 @@ double _readDouble(Map<Object?, Object?> values, String key) {
   if (value is int) {
     return value.toDouble();
   }
-  throw PlatformException(
+  throw PdfRenderException(
+    'Expected double for "$key", got ${value.runtimeType}.',
     code: 'invalid_result',
-    message: 'Expected double for "$key", got ${value.runtimeType}.',
   );
 }

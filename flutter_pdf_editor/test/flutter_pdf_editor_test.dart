@@ -271,7 +271,7 @@ void main() {
   test('AcroForm parser reads checkbox mark styles from MK/CA', () async {
     final parser = PdfAcroFormParser();
     final bytes = await File(
-      '/Users/sakibulhaque/Desktop/Project/dart_package/pdf_editor/pdf_renderer_bridge/example/assets/pdf/sample_fillable_fields.pdf',
+      '../pdf_renderer_bridge/example/assets/pdf/sample_fillable_fields.pdf',
     ).readAsBytes();
     final fields = parser.parseBytes(bytes);
 

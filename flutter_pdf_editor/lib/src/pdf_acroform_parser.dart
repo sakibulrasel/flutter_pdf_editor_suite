@@ -11,15 +11,31 @@ final class PdfAcroFormParser {
   Future<List<PdfFormField>> parse(PdfDocumentSource source) async {
     final bytes = switch (source.type) {
       PdfDocumentSourceType.bytes => source.bytes!,
-      PdfDocumentSourceType.file => await File(source.path!).readAsBytes(),
+      PdfDocumentSourceType.file => await _readFile(source.path!),
     };
     return parseBytes(bytes);
   }
 
   /// Parses form fields directly from raw PDF [bytes].
+  ///
+  /// Returns an empty list when the PDF has no form. Throws
+  /// [PdfInvalidDocumentException] when [bytes] are not a readable PDF, and
+  /// [PdfUnsupportedFeatureException] for encrypted PDFs, PDFs that store
+  /// objects in compressed object streams, and XFA-only forms.
   List<PdfFormField> parseBytes(Uint8List bytes) {
+    final preflight = PdfPreflight.inspect(bytes);
+    preflight.ensureReadable(operation: 'Form parsing');
+
     final document = _PdfObjectIndex.fromBytes(bytes);
-    final acroFormRef = document.catalog.getRef('AcroForm');
+    final _PdfDictionary catalog;
+    try {
+      catalog = document.catalog;
+    } on StateError {
+      throw const PdfInvalidDocumentException(
+        'The PDF has no document catalog.',
+      );
+    }
+    final acroFormRef = catalog.getRef('AcroForm');
     if (acroFormRef == null) {
       return const <PdfFormField>[];
     }
@@ -48,6 +64,12 @@ final class PdfAcroFormParser {
           inheritedValue: null,
           inheritedFlags: null,
         ),
+      );
+    }
+    if (fields.isEmpty && preflight.hasXfa) {
+      throw PdfUnsupportedFeatureException(
+        PdfUnsupportedFeature.xfaForms,
+        operation: 'Form parsing',
       );
     }
     return fields;
@@ -262,6 +284,14 @@ final class PdfAcroFormParser {
   }
 }
 
+Future<Uint8List> _readFile(String path) async {
+  final file = File(path);
+  if (!await file.exists()) {
+    throw PdfFileNotFoundException(path);
+  }
+  return file.readAsBytes();
+}
+
 final class _PdfObjectIndex {
   _PdfObjectIndex(this._objects);
 
@@ -286,7 +316,11 @@ final class _PdfObjectIndex {
     return _PdfObjectIndex(objects);
   }
 
-  _PdfObject object(int objectNumber) => _objects[objectNumber]!;
+  _PdfObject object(int objectNumber) =>
+      _objects[objectNumber] ??
+      (throw PdfInvalidDocumentException(
+        'Object $objectNumber is referenced but missing.',
+      ));
 
   _PdfDictionary get catalog => _objects.values
       .firstWhere((object) => object.dictionary.getName('Type') == 'Catalog')
@@ -634,12 +668,56 @@ final class _PdfTokenizer {
         }
       }
       if (char == r'\' && _index < input.length) {
-        buffer.write(input[_index++]);
+        _readEscape(buffer);
         continue;
       }
       buffer.write(char);
     }
     return buffer.toString();
+  }
+
+  /// Decodes one escape sequence after a backslash (PDF 32000-1, 7.3.4.2).
+  void _readEscape(StringBuffer buffer) {
+    final char = input[_index++];
+    switch (char) {
+      case 'n':
+        buffer.write('\n');
+      case 'r':
+        buffer.write('\r');
+      case 't':
+        buffer.write('\t');
+      case 'b':
+        buffer.write('\b');
+      case 'f':
+        buffer.write('\f');
+      case '\r':
+        // Backslash + end of line continues the string on the next line.
+        if (_index < input.length && input[_index] == '\n') {
+          _index++;
+        }
+      case '\n':
+        break;
+      default:
+        if (_isOctalDigit(char)) {
+          // Up to three octal digits encode one byte, e.g. \137 is '_'.
+          var code = char.codeUnitAt(0) - 0x30;
+          for (var count = 1; count < 3; count++) {
+            if (_index >= input.length || !_isOctalDigit(input[_index])) {
+              break;
+            }
+            code = code * 8 + input[_index++].codeUnitAt(0) - 0x30;
+          }
+          buffer.writeCharCode(code & 0xFF);
+        } else {
+          // \( \) \\ and any unknown escape map to the character itself.
+          buffer.write(char);
+        }
+    }
+  }
+
+  static bool _isOctalDigit(String char) {
+    final code = char.codeUnitAt(0);
+    return code >= 0x30 && code <= 0x37;
   }
 
   String _readName() {
