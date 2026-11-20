@@ -435,7 +435,7 @@ class _PdfEditorScreenState extends State<PdfEditorScreen> {
         return Uint8List.fromList(file.bytes!);
       }
       if (file.path != null) {
-        return File(file.path!).readAsBytes();
+        return await File(file.path!).readAsBytes();
       }
       return null;
     } catch (error) {

@@ -188,7 +188,7 @@ class _ExampleScreenState extends State<_ExampleScreen> {
         return Uint8List.fromList(selectedFile.bytes!);
       }
       if (selectedFile.path != null) {
-        return File(selectedFile.path!).readAsBytes();
+        return await File(selectedFile.path!).readAsBytes();
       }
       return null;
     } catch (error) {
