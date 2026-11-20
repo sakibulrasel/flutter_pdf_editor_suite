@@ -9,3 +9,5 @@ build/
 # Per-package lockfiles are not used in a pub workspace; the root one is.
 */pubspec.lock
 */example/pubspec.lock
+# Local CI output (tool/ci.sh 2>&1 | tee ci.log)
+ci.log

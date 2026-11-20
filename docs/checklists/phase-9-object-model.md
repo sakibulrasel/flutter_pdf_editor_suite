@@ -39,7 +39,7 @@ Code: `pdf_engine_core/lib/src/cos/`, public entry point
 - [x] Every fixture: open, check page count against qpdf, incremental update, full rewrite, reopen
 - [x] Xref-stream decoding cross-checked against `qpdf --show-xref` (Python port of the same algorithm)
 - [x] LZW checked against the worked example in PDF 32000-1, 7.4.4.2; ASCII85 and RunLength against reference encoders
-- [ ] `tool/ci.sh` green on a machine with Flutter (this phase was written without a local Dart SDK)
+- [x] `tool/ci.sh` green on a machine with Flutter: 140 core, 11 bridge, 6 viewer, 37 editor tests
 - [ ] Open saved files in Acrobat, Chrome and Preview
 - [ ] Real-world PDFs from `fixtures/real_world/`
 
