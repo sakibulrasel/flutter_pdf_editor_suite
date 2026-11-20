@@ -29,8 +29,8 @@ class PdfInvalidDocumentException extends PdfException {
 /// A file-based [PdfException] where the file does not exist.
 class PdfFileNotFoundException extends PdfException {
   /// Creates a file-not-found exception for [path].
-  PdfFileNotFoundException(this.path, {Object? cause})
-    : super('PDF file does not exist: $path', cause: cause);
+  PdfFileNotFoundException(this.path, {super.cause})
+    : super('PDF file does not exist: $path');
 
   /// Path that could not be found.
   final String path;
@@ -102,11 +102,10 @@ class PdfUnsupportedFeatureException extends PdfException {
 /// The current platform has no PDF renderer implementation.
 class PdfUnsupportedPlatformException extends PdfException {
   /// Creates an unsupported-platform exception for [platform].
-  PdfUnsupportedPlatformException(this.platform, {Object? cause})
+  PdfUnsupportedPlatformException(this.platform, {super.cause})
     : super(
         'PDF rendering is not supported on $platform yet. '
         'Supported platforms: Android and iOS.',
-        cause: cause,
       );
 
   /// Name of the platform, for example `'windows'` or `'web'`.

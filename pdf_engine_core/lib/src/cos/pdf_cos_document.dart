@@ -161,7 +161,8 @@ final class PdfCosDocument {
   final String version;
 
   final Map<int, PdfObject?> _cache = <int, PdfObject?>{};
-  final Map<int, _ObjectStream> _objectStreams = <int, _ObjectStream>{};
+  // Null records an object stream that could not be read, so it is not retried.
+  final Map<int, _ObjectStream?> _objectStreams = <int, _ObjectStream?>{};
   Map<int, PdfXrefEntry>? _scanIndex;
   List<PdfCosPage>? _pages;
 
@@ -279,9 +280,9 @@ final class PdfCosDocument {
   }
 
   PdfObject? _loadCompressed(int streamNumber, int index, int number) {
-    final objectStream = _objectStreams[streamNumber] ??= _readObjectStream(
-      streamNumber,
-    );
+    final objectStream = _objectStreams.containsKey(streamNumber)
+        ? _objectStreams[streamNumber]
+        : (_objectStreams[streamNumber] = _readObjectStream(streamNumber));
     if (objectStream == null) {
       return null;
     }
