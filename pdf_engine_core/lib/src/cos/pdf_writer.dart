@@ -44,7 +44,9 @@ final class PdfObjectSerializer {
       case PdfRef(:final number, :final generation):
         _ascii(out, '$number $generation R');
       case PdfStream():
-        throw ArgumentError('A stream can only be written as an indirect object');
+        throw ArgumentError(
+          'A stream can only be written as an indirect object',
+        );
     }
   }
 
@@ -363,8 +365,8 @@ final class PdfDocumentRewriter {
     final offsets = <int, int>{};
     final generations = <int, int>{};
     for (final number in numbers) {
-      final generation = overrides.containsKey(number) &&
-              document.entryFor(number) == null
+      final generation =
+          overrides.containsKey(number) && document.entryFor(number) == null
           ? 0
           : document.generationOf(number);
       offsets[number] = out.length;

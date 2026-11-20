@@ -261,7 +261,9 @@ final class PdfCosDocument {
     }
     try {
       final parser = PdfObjectParser(bytes, offset);
-      final indirect = parser.parseIndirectObject(resolveLength: _resolveLength);
+      final indirect = parser.parseIndirectObject(
+        resolveLength: _resolveLength,
+      );
       if (indirect.number != number) {
         return null;
       }
@@ -618,7 +620,9 @@ final class PdfCosDocument {
 
     // Newest trailer dictionary that names a catalog.
     PdfDict? trailer;
-    for (final match in RegExp(r'trailer\s*<<').allMatches(text).toList().reversed) {
+    for (final match in RegExp(
+      r'trailer\s*<<',
+    ).allMatches(text).toList().reversed) {
       try {
         final parser = PdfObjectParser(bytes, match.end - 2);
         final candidate = parser.parseObject();

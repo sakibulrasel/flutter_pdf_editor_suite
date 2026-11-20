@@ -87,7 +87,11 @@ int _intParam(PdfDict? parms, String key, int fallback, PdfResolver? resolve) {
 }
 
 /// Reverses a TIFF (2) or PNG (10-15) predictor described by [parms].
-Uint8List applyPredictor(Uint8List data, PdfDict? parms, {PdfResolver? resolve}) {
+Uint8List applyPredictor(
+  Uint8List data,
+  PdfDict? parms, {
+  PdfResolver? resolve,
+}) {
   final predictor = _intParam(parms, 'Predictor', 1, resolve);
   if (predictor <= 1) {
     return data;
@@ -208,7 +212,8 @@ Uint8List lzwDecode(Uint8List data, {int earlyChange = 1}) {
     if (bitCount < codeLength) {
       break;
     }
-    final code = (bitBuffer >> (bitCount - codeLength)) & ((1 << codeLength) - 1);
+    final code =
+        (bitBuffer >> (bitCount - codeLength)) & ((1 << codeLength) - 1);
     bitCount -= codeLength;
 
     if (code == clearTable) {
