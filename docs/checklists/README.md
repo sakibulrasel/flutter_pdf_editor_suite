@@ -12,6 +12,7 @@ Recommended build order:
 6. [Phase 5 - Basic Form Filling](./phase-5-form-filling.md)
 7. [Phase 7 - Advanced PDF Authoring](./phase-7-advanced-pdf-authoring.md)
 8. [Phase 8 - Stabilise and Clean Up](./phase-8-stabilise.md)
+9. [Phase 9 - PDF Object Model](./phase-9-object-model.md)
 
 Target MVP:
 

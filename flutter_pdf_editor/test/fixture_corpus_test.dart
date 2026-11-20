@@ -76,11 +76,20 @@ void main() {
       expect(parser.parseBytes(_fixture('flate_content_stream.pdf')), isEmpty);
     });
 
-    test('rejects compressed object streams with a typed exception', () {
+    test('reads forms stored in compressed object streams', () {
+      final classic = parser.parseBytes(_fixture('form_classic.pdf'));
+      final compressed = parser.parseBytes(_fixture('form_object_streams.pdf'));
       expect(
-        () => parser.parseBytes(_fixture('form_object_streams.pdf')),
-        _unsupported(PdfUnsupportedFeature.compressedObjectStreams),
+        compressed.map((field) => '${field.runtimeType}:${field.name}'),
+        classic.map((field) => '${field.runtimeType}:${field.name}'),
       );
+    });
+
+    test('reads forms whose newest revision uses an xref stream', () {
+      final fields = parser.parseBytes(
+        _fixture('form_incremental_xref_stream.pdf'),
+      );
+      expect(_textField(fields, 'full_name').value, 'Incremental Value');
     });
 
     test('rejects encrypted forms with a typed exception', () {
@@ -162,26 +171,12 @@ void main() {
       },
     );
 
-    test('rejects compressed object streams, keeping the fallback type', () {
-      expect(
-        exporter.exportToBytes(
-          source: PdfDocumentSource.bytes(_fixture('form_object_streams.pdf')),
-          formFields: const <PdfFormField>[],
-        ),
-        _editableRejected(PdfUnsupportedFeature.compressedObjectStreams),
-      );
+    test('saves forms stored in compressed object streams', () {
+      return expectRoundTrip('form_object_streams.pdf');
     });
 
-    test('rejects files that already use a cross-reference stream', () {
-      expect(
-        exporter.exportToBytes(
-          source: PdfDocumentSource.bytes(
-            _fixture('form_incremental_xref_stream.pdf'),
-          ),
-          formFields: const <PdfFormField>[],
-        ),
-        _editableRejected(PdfUnsupportedFeature.crossReferenceStreams),
-      );
+    test('saves on top of a cross-reference stream update', () {
+      return expectRoundTrip('form_incremental_xref_stream.pdf');
     });
 
     test('rejects encrypted files', () {

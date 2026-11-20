@@ -5,9 +5,14 @@ import 'pdf_exceptions.dart';
 
 /// Quick structural checks run on raw PDF bytes before parsing or saving.
 ///
-/// The preflight does not parse the document. It scans the bytes for the
-/// markers of features the suite does not support yet, so callers can fail
-/// early with a typed [PdfException] instead of crashing halfway through.
+/// The preflight does not parse the document. It scans the bytes for
+/// structural markers (encryption, object streams, cross-reference streams,
+/// XFA) so callers can decide early what a file needs.
+///
+/// The object model in `package:pdf_engine_core/cos.dart` reads all of these
+/// layouts except encryption, so the suite's own parser and exporter no
+/// longer depend on [PdfPreflightReport.ensureReadable]. The guards remain
+/// for code that only handles classic, uncompressed files.
 final class PdfPreflight {
   const PdfPreflight._();
 
@@ -90,14 +95,15 @@ final class PdfPreflightReport {
   /// Number of `%%EOF` markers, roughly one per saved revision.
   final int revisionCount;
 
-  /// Whether the classic-structure readers in this suite can read the file.
+  /// Whether a reader limited to classic, uncompressed PDFs can read the
+  /// file. `PdfCosDocument` also reads object streams.
   bool get isReadable => isPdf && !isEncrypted && !usesObjectStreams;
 
   /// Whether the file can be saved with a classic incremental update.
   bool get isIncrementallyWritable =>
       isReadable && hasClassicTrailer && !usesCrossReferenceStreams;
 
-  /// Throws if the suite's readers cannot read this file.
+  /// Throws if a classic-only reader cannot read this file.
   ///
   /// [operation] names what is being attempted and appears in the message.
   void ensureReadable({required String operation}) {

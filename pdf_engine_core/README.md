@@ -43,9 +43,32 @@ const overlay = PdfTextOverlay(
 );
 ```
 
+## Low-level PDF object model
+
+`package:pdf_engine_core/cos.dart` is a pure-Dart reader and writer for the
+objects inside a PDF file:
+
+```dart
+import 'package:pdf_engine_core/cos.dart';
+
+final document = PdfCosDocument.open(bytes);
+print('${document.pages.length} pages, PDF ${document.version}');
+
+// Change the catalog and save it as an incremental update.
+final rootRef = document.trailer['Root']! as PdfRef;
+final catalog = document.catalog.copy()
+  ..['PageMode'] = const PdfName('UseOutlines');
+final saved = (PdfIncrementalUpdate(document)..set(rootRef.number, catalog))
+    .build();
+```
+
+It reads classic and compressed (PDF 1.5+) files, incremental updates and
+damaged files, and saves either as an incremental update or a full rewrite.
+Encrypted files are not supported yet.
+
 ## Package Scope
 
-This package does not render or edit PDFs by itself. It provides the shared
+This package does not render PDFs or provide editing UI. It provides the shared
 types used by:
 
 - `pdf_renderer_bridge`

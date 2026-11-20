@@ -1,3 +1,11 @@
+## 0.2.0
+
+- `PdfAcroFormParser` and `PdfEditableExporter` now run on the `pdf_engine_core` object model. Forms saved by Acrobat, Word and other PDF 1.5+ tools (compressed object streams, cross-reference streams) are now read and saved; before, they were rejected.
+- Fixed editable save writing changed objects with generation number + 1 while references kept generation 0, which strict viewers could read as a missing field.
+- Editable save now sets `/V` on the field dictionary that owns a widget (the named parent for radio buttons and split widgets), sets `/NeedAppearances` so viewers redraw changed values, and writes non-Latin text as UTF-16.
+- Pages are now matched in page-tree order with inherited `MediaBox`, and field bounds account for a `MediaBox` that does not start at 0,0.
+- Added `PdfAcroFormParser.parseDocument` for an already opened `PdfCosDocument`.
+
 ## 0.1.0
 
 - `PdfAcroFormParser` now checks the file first and throws typed exceptions (`PdfUnsupportedFeatureException` for encrypted PDFs, compressed object streams and XFA-only forms; `PdfInvalidDocumentException`; `PdfFileNotFoundException`) instead of crashing with `StateError` or a null-check error.

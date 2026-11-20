@@ -110,7 +110,7 @@ rejected up front with a typed reason instead of failing halfway:
 try {
   final fields = await PdfAcroFormParser().parse(source);
 } on PdfUnsupportedFeatureException catch (error) {
-  // error.feature: encryption, compressedObjectStreams or xfaForms.
+  // error.feature: encryption or xfaForms.
   print(error.message);
 }
 
@@ -125,11 +125,10 @@ try {
 }
 ```
 
-Current limits: form parsing and editable save support classic PDFs. PDFs
-saved with compressed object streams (common from Acrobat and Word),
-encrypted PDFs and XFA-only forms are detected and rejected. Flattened export
-renders pages natively, so it still works for PDFs with compressed object
-streams.
+Form parsing and editable save support classic PDFs and PDF 1.5+ files with
+compressed object streams and cross-reference streams (the layout Acrobat and
+Word use). Encrypted PDFs and XFA-only forms are detected and rejected with a
+typed reason.
 
 ## Package Role
 

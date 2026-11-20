@@ -65,7 +65,11 @@ enum PdfUnsupportedFeature {
   crossReferenceStreams('cross-reference streams (PDF 1.5+)'),
 
   /// The form is an XFA form with no usable AcroForm fields.
-  xfaForms('XFA forms');
+  xfaForms('XFA forms'),
+
+  /// A stream uses a filter the suite cannot decode (for example image
+  /// filters such as DCTDecode).
+  streamFilter('this stream filter');
 
   const PdfUnsupportedFeature(this.description);
 

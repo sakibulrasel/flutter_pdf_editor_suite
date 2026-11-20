@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:pdf_engine_core/cos.dart';
 import 'package:pdf_engine_core/pdf_engine_core.dart';
 
 /// Error thrown when editable PDF write-back cannot be completed.
@@ -17,7 +18,12 @@ class PdfEditableExportException extends PdfException {
   String toString() => 'PdfEditableExportException: $message';
 }
 
-/// Writes supported form values back into an existing AcroForm PDF.
+/// Writes form values back into an existing AcroForm PDF.
+///
+/// Values are appended as an incremental update, so the original content,
+/// earlier revisions and the fields themselves stay intact and editable.
+/// Works with classic PDFs and with PDF 1.5+ files that use compressed object
+/// streams and cross-reference streams.
 final class PdfEditableExporter {
   /// Exports an editable PDF as bytes.
   Future<Uint8List> exportToBytes({
@@ -28,14 +34,13 @@ final class PdfEditableExporter {
       PdfDocumentSourceType.bytes => source.bytes!,
       PdfDocumentSourceType.file => await _readFile(source.path!),
     };
+    final PdfCosDocument document;
     try {
-      PdfPreflight.inspect(
-        bytes,
-      ).ensureIncrementallyWritable(operation: 'Editable save');
+      document = PdfCosDocument.open(bytes);
     } on PdfException catch (error) {
       throw PdfEditableExportException(error.message, cause: error);
     }
-    return _EditablePdfWriter(bytes).applyFields(formFields);
+    return _EditablePdfWriter(document).applyFields(formFields);
   }
 
   /// Writes an editable PDF file to [outputPath].
@@ -60,69 +65,52 @@ Future<Uint8List> _readFile(String path) async {
 }
 
 final class _EditablePdfWriter {
-  _EditablePdfWriter(Uint8List bytes)
-    : _originalBytes = bytes,
-      _index = _ObjectIndex.parse(String.fromCharCodes(bytes));
+  _EditablePdfWriter(this._document);
 
-  final Uint8List _originalBytes;
-  final _ObjectIndex _index;
+  final PdfCosDocument _document;
+
+  /// Working copies of the objects being changed, by object number.
+  final Map<int, PdfDict> _edited = <int, PdfDict>{};
 
   Uint8List applyFields(List<PdfFormField> formFields) {
     if (formFields.isEmpty) {
-      return _originalBytes;
+      return _document.bytes;
     }
 
-    final updatedObjects = <int, _UpdatedObject>{};
-    final radioGroups = <int, PdfRadioFormField>{};
-
+    var valuesChanged = false;
     for (final field in formFields) {
+      final widget = field._objectNumber;
       switch (field) {
-        case PdfTextFormField textField:
-          updatedObjects[textField._objectNumber] = _replaceObjectValue(
-            objectNumber: textField._objectNumber,
-            key: 'V',
-            valueToken: _pdfString(textField.value),
-          );
-        case PdfCheckboxFormField checkboxField:
-          final token = checkboxField.isChecked
-              ? '/${checkboxField.onValue}'
-              : '/Off';
-          updatedObjects[checkboxField._objectNumber] = _replaceWidgetState(
-            objectNumber: checkboxField._objectNumber,
-            valueToken: token,
-          );
-        case PdfRadioFormField radioField:
-          final widgetToken = radioField.isSelected
-              ? '/${radioField.optionValue}'
-              : '/Off';
-          updatedObjects[radioField._objectNumber] = _replaceKey(
-            objectNumber: radioField._objectNumber,
-            key: 'AS',
-            valueToken: widgetToken,
-          );
-          final parentRef = _index.parentRefFor(radioField._objectNumber);
-          if (parentRef != null && radioField.isSelected) {
-            radioGroups[parentRef] = radioField;
+        case PdfTextFormField(:final value):
+          _setFieldValue(widget, PdfString.fromText(value));
+          valuesChanged = true;
+        case PdfCheckboxFormField(:final isChecked, :final onValue):
+          final state = PdfName(isChecked ? onValue : 'Off');
+          _setFieldValue(widget, state);
+          _dictFor(widget)['AS'] = state;
+        case PdfRadioFormField(:final isSelected, :final optionValue):
+          _dictFor(widget)['AS'] = PdfName(isSelected ? optionValue : 'Off');
+          if (isSelected) {
+            _setFieldValue(widget, PdfName(optionValue));
           }
-        case PdfComboBoxFormField comboBoxField:
-          updatedObjects[comboBoxField._objectNumber] = _replaceObjectValue(
-            objectNumber: comboBoxField._objectNumber,
-            key: 'V',
-            valueToken: _pdfString(comboBoxField.selectedValue),
+        case PdfComboBoxFormField(:final selectedValue):
+          _setFieldValue(widget, PdfString.fromText(selectedValue));
+          valuesChanged = true;
+        case PdfListBoxFormField(:final isMultiSelect, :final selectedValues):
+          _setFieldValue(
+            widget,
+            isMultiSelect
+                ? PdfArray(<PdfObject>[
+                    for (final value in selectedValues)
+                      PdfString.fromText(value),
+                  ])
+                : PdfString.fromText(
+                    selectedValues.isEmpty ? '' : selectedValues.first,
+                  ),
           );
-        case PdfListBoxFormField listBoxField:
-          final token = listBoxField.isMultiSelect
-              ? _pdfStringArray(listBoxField.selectedValues)
-              : (listBoxField.selectedValues.isEmpty
-                    ? '()'
-                    : _pdfString(listBoxField.selectedValues.first));
-          updatedObjects[listBoxField._objectNumber] = _replaceObjectValue(
-            objectNumber: listBoxField._objectNumber,
-            key: 'V',
-            valueToken: token,
-          );
-        case PdfSignatureFormField signatureField:
-          if (signatureField.hasSignature) {
+          valuesChanged = true;
+        case PdfSignatureFormField(:final hasSignature):
+          if (hasSignature) {
             throw const PdfEditableExportException(
               'Editable export does not yet support signature image write-back.',
             );
@@ -130,253 +118,70 @@ final class _EditablePdfWriter {
       }
     }
 
-    for (final entry in radioGroups.entries) {
-      updatedObjects[entry.key] = _replaceObjectValue(
-        objectNumber: entry.key,
-        key: 'V',
-        valueToken: '/${entry.value.optionValue}',
-      );
+    if (valuesChanged) {
+      // Appearance streams are not regenerated yet (Phase 10), so ask
+      // viewers to rebuild them from the new values.
+      _setNeedAppearances();
     }
-
-    if (updatedObjects.isEmpty) {
-      return _originalBytes;
+    if (_edited.isEmpty) {
+      return _document.bytes;
     }
+    final update = PdfIncrementalUpdate(_document);
+    for (final entry in _edited.entries) {
+      update.set(entry.key, entry.value);
+    }
+    return update.build();
+  }
 
-    final lastStartXref = _index.lastStartXref;
-    final buffer = StringBuffer()..write('\n');
-    final offsets = <int, int>{};
+  /// Returns the working copy of object [number], creating it on first use.
+  PdfDict _dictFor(int number) {
+    final existing = _edited[number];
+    if (existing != null) {
+      return existing;
+    }
+    final object = _document.getObject(number);
+    if (object is! PdfDict) {
+      throw PdfEditableExportException('Object $number not found.');
+    }
+    return _edited[number] = object.copy();
+  }
 
-    for (final objectNumber in updatedObjects.keys.toList()..sort()) {
-      final updated = updatedObjects[objectNumber]!;
-      offsets[objectNumber] = _originalBytes.length + buffer.length;
-      buffer.write('$objectNumber ${updated.generation} obj\n');
-      buffer.write(updated.body);
-      if (!updated.body.endsWith('\n')) {
-        buffer.write('\n');
+  /// Sets `/V` on the field that owns [widgetNumber]: the widget itself when
+  /// it has a `/T` name, otherwise the nearest named `/Parent`.
+  void _setFieldValue(int widgetNumber, PdfObject value) {
+    _dictFor(_fieldNumberFor(widgetNumber))['V'] = value;
+  }
+
+  int _fieldNumberFor(int widgetNumber) {
+    var number = widgetNumber;
+    for (var depth = 0; depth < 32; depth++) {
+      final dict = _document.getObject(number);
+      if (dict is! PdfDict || dict.containsKey('T')) {
+        return number;
       }
-      buffer.write('endobj\n');
-    }
-
-    final xrefOffset = _originalBytes.length + buffer.length;
-    buffer.write('xref\n');
-    for (final range in _contiguousRanges(offsets.keys.toList()..sort())) {
-      buffer.write('${range.start} ${range.length}\n');
-      for (
-        var objectNumber = range.start;
-        objectNumber < range.start + range.length;
-        objectNumber++
-      ) {
-        final offset = offsets[objectNumber]!;
-        final generation = updatedObjects[objectNumber]!.generation;
-        buffer.write(
-          '${offset.toString().padLeft(10, '0')} ${generation.toString().padLeft(5, '0')} n \n',
-        );
+      final parent = dict['Parent'];
+      if (parent is! PdfRef) {
+        return number;
       }
+      number = parent.number;
     }
-    buffer.write('trailer\n');
-    buffer.write(
-      '<< /Size ${_index.size} /Root ${_index.rootRef} '
-      '${_index.infoRef == null ? '' : '/Info ${_index.infoRef} '}'
-      '/Prev $lastStartXref >>\n',
-    );
-    buffer.write('startxref\n');
-    buffer.write('$xrefOffset\n');
-    buffer.write('%%EOF\n');
-
-    return Uint8List.fromList(<int>[
-      ..._originalBytes,
-      ...buffer.toString().codeUnits,
-    ]);
+    return widgetNumber;
   }
 
-  _UpdatedObject _replaceWidgetState({
-    required int objectNumber,
-    required String valueToken,
-  }) {
-    final afterValue = _replaceKey(
-      objectNumber: objectNumber,
-      key: 'V',
-      valueToken: valueToken,
-    );
-    final body = _replaceOrAppend(afterValue.body, 'AS', valueToken);
-    return _UpdatedObject(body: body, generation: afterValue.generation);
-  }
-
-  _UpdatedObject _replaceObjectValue({
-    required int objectNumber,
-    required String key,
-    required String valueToken,
-  }) {
-    return _replaceKey(
-      objectNumber: objectNumber,
-      key: key,
-      valueToken: valueToken,
-    );
-  }
-
-  _UpdatedObject _replaceKey({
-    required int objectNumber,
-    required String key,
-    required String valueToken,
-  }) {
-    final object = _index.objects[objectNumber];
-    if (object == null) {
-      throw PdfEditableExportException('Object $objectNumber not found.');
+  void _setNeedAppearances() {
+    final rootRef = _document.trailer['Root'];
+    if (rootRef is! PdfRef) {
+      return;
     }
-    return _UpdatedObject(
-      body: _replaceOrAppend(object.body, key, valueToken),
-      generation: object.generation + 1,
-    );
+    final acroFormEntry = _document.catalog['AcroForm'];
+    if (acroFormEntry is PdfRef) {
+      _dictFor(acroFormEntry.number)['NeedAppearances'] = const PdfBool(true);
+    } else if (acroFormEntry is PdfDict) {
+      final catalog = _dictFor(rootRef.number);
+      catalog['AcroForm'] = acroFormEntry.copy()
+        ..['NeedAppearances'] = const PdfBool(true);
+    }
   }
-
-  String _replaceOrAppend(String body, String key, String valueToken) {
-    final pattern = RegExp(
-      '/$key\\s+(\\[[^\\]]*\\]|\\((?:\\\\.|[^)])*\\)|/[^\\s<>\\[\\]()]+)',
-    );
-    if (pattern.hasMatch(body)) {
-      return body.replaceFirst(pattern, '/$key $valueToken');
-    }
-    final end = body.lastIndexOf('>>');
-    if (end < 0) {
-      throw PdfEditableExportException('Object body is not a dictionary.');
-    }
-    return '${body.substring(0, end)} /$key $valueToken ${body.substring(end)}';
-  }
-
-  String _pdfString(String value) {
-    final escaped = value
-        .replaceAll(r'\', r'\\')
-        .replaceAll('(', r'\(')
-        .replaceAll(')', r'\)')
-        .replaceAll('\r', r'\r')
-        .replaceAll('\n', r'\012');
-    return '($escaped)';
-  }
-
-  String _pdfStringArray(List<String> values) {
-    return '[ ${values.map(_pdfString).join(' ')} ]';
-  }
-
-  List<_ObjectRange> _contiguousRanges(List<int> sortedObjects) {
-    if (sortedObjects.isEmpty) {
-      return const <_ObjectRange>[];
-    }
-    final ranges = <_ObjectRange>[];
-    var start = sortedObjects.first;
-    var previous = start;
-    for (final objectNumber in sortedObjects.skip(1)) {
-      if (objectNumber == previous + 1) {
-        previous = objectNumber;
-        continue;
-      }
-      ranges.add(_ObjectRange(start: start, length: previous - start + 1));
-      start = objectNumber;
-      previous = objectNumber;
-    }
-    ranges.add(_ObjectRange(start: start, length: previous - start + 1));
-    return ranges;
-  }
-}
-
-final class _ObjectIndex {
-  _ObjectIndex({
-    required this.objects,
-    required this.rootRef,
-    required this.infoRef,
-    required this.size,
-    required this.lastStartXref,
-  });
-
-  final Map<int, _ParsedObject> objects;
-  final String rootRef;
-  final String? infoRef;
-  final int size;
-  final int lastStartXref;
-
-  static _ObjectIndex parse(String content) {
-    final objectPattern = RegExp(
-      r'(\d+)\s+(\d+)\s+obj\s*(.*?)\s*endobj',
-      dotAll: true,
-    );
-    final objects = <int, _ParsedObject>{};
-    for (final match in objectPattern.allMatches(content)) {
-      final objectNumber = int.parse(match.group(1)!);
-      final generation = int.parse(match.group(2)!);
-      objects[objectNumber] = _ParsedObject(
-        objectNumber: objectNumber,
-        generation: generation,
-        body: match.group(3)!,
-      );
-    }
-
-    final trailerPattern = RegExp(
-      r'trailer\s*<<(.*?)>>\s*startxref\s+(\d+)',
-      dotAll: true,
-    );
-    final trailers = trailerPattern.allMatches(content).toList(growable: false);
-    if (trailers.isEmpty) {
-      throw const PdfEditableExportException('Could not find trailer.');
-    }
-    final lastTrailer = trailers.last;
-    final trailerBody = lastTrailer.group(1)!;
-    final rootMatch = RegExp(
-      r'/Root\s+(\d+\s+\d+\s+R)',
-    ).firstMatch(trailerBody);
-    if (rootMatch == null) {
-      throw const PdfEditableExportException('Could not find trailer root.');
-    }
-    final infoMatch = RegExp(
-      r'/Info\s+(\d+\s+\d+\s+R)',
-    ).firstMatch(trailerBody);
-    final sizeMatch = RegExp(r'/Size\s+(\d+)').firstMatch(trailerBody);
-    final lastStartXref = int.parse(lastTrailer.group(2)!);
-    return _ObjectIndex(
-      objects: objects,
-      rootRef: rootMatch.group(1)!,
-      infoRef: infoMatch?.group(1),
-      size: sizeMatch == null
-          ? (objects.keys.isEmpty
-                ? 0
-                : objects.keys.reduce((a, b) => a > b ? a : b) + 1)
-          : int.parse(sizeMatch.group(1)!),
-      lastStartXref: lastStartXref,
-    );
-  }
-
-  int? parentRefFor(int widgetObjectNumber) {
-    final object = objects[widgetObjectNumber];
-    if (object == null) {
-      return null;
-    }
-    final match = RegExp(r'/Parent\s+(\d+)\s+\d+\s+R').firstMatch(object.body);
-    return match == null ? null : int.parse(match.group(1)!);
-  }
-}
-
-final class _ParsedObject {
-  const _ParsedObject({
-    required this.objectNumber,
-    required this.generation,
-    required this.body,
-  });
-
-  final int objectNumber;
-  final int generation;
-  final String body;
-}
-
-final class _UpdatedObject {
-  const _UpdatedObject({required this.body, required this.generation});
-
-  final String body;
-  final int generation;
-}
-
-final class _ObjectRange {
-  const _ObjectRange({required this.start, required this.length});
-
-  final int start;
-  final int length;
 }
 
 extension on PdfFormField {
