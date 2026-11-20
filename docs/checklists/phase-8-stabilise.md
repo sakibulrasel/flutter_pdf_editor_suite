@@ -37,10 +37,13 @@ safety net the later phases need.
 
 ## CI
 
-- [x] `tool/ci.sh` runs pub get, analyze and test for all four packages in dependency order
+- [x] Pub workspace: root `pubspec.yaml` links all packages and examples; `pubspec_overrides.yaml` files removed
+- [x] Examples moved to `share_plus: ^12.0.1` so the whole workspace resolves together
+- [x] `tool/ci.sh` runs one root pub get, then format check, analyze and test for all four packages
 - [x] GitHub Actions: analyze and test, Android example build, iOS simulator example build
-- [ ] Add `dart format --set-exit-if-changed` once the codebase is formatted in one pass
-- [ ] Revisit melos or a pub workspace if the committed `pubspec_overrides.yaml` files become hard to manage
+- [x] `dart format --set-exit-if-changed` check in CI; `tool/format.sh` formats everything
+- [ ] Run `tool/format.sh` once and commit the result (needs a machine with Flutter)
+- [ ] Commit the root `pubspec.lock` after the first `flutter pub get`
 
 ## Bug Found by the Corpus
 

@@ -1,0 +1,17 @@
+# Pub workspace for the flutter_pdf_editor_suite packages.
+# Run `flutter pub get` here once; every member then uses the local copies of
+# the other members. Requires Dart 3.6+ (all members use ^3.10.4).
+name: flutter_pdf_editor_suite_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.10.4
+
+workspace:
+  - pdf_engine_core
+  - pdf_renderer_bridge
+  - pdf_renderer_bridge/example
+  - flutter_pdf_viewer
+  - flutter_pdf_viewer/example
+  - flutter_pdf_editor
+  - flutter_pdf_editor/example

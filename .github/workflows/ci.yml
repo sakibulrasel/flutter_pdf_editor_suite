@@ -38,9 +38,9 @@ jobs:
           channel: stable
           cache: true
       - name: Build debug APK
-        working-directory: pdf_renderer_bridge/example
         run: |
           flutter pub get
+          cd pdf_renderer_bridge/example
           flutter build apk --debug
 
   ios-example:
@@ -54,7 +54,7 @@ jobs:
           channel: stable
           cache: true
       - name: Build for the iOS simulator (no code signing needed)
-        working-directory: pdf_renderer_bridge/example
         run: |
           flutter pub get
+          cd pdf_renderer_bridge/example
           flutter build ios --simulator --debug

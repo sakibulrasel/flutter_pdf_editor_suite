@@ -1,0 +1,11 @@
+# Workspace-wide build output
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.DS_Store
+.idea/
+*.iml
+# Per-package lockfiles are not used in a pub workspace; the root one is.
+*/pubspec.lock
+*/example/pubspec.lock

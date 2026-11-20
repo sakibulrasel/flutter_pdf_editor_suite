@@ -8,6 +8,8 @@ issue_tracker: https://github.com/sakibulrasel/flutter_pdf_editor_suite/issues
 environment:
   sdk: ^3.10.4
 
+resolution: workspace
+
 # Add regular dependencies here.
 dependencies:
   # path: ^1.9.0
