@@ -22,7 +22,13 @@ allprojects {
 }
 
 apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
+
+// AGP 9+ compiles Kotlin itself ("built-in Kotlin") and rejects the separate
+// Kotlin Android plugin. Apps still on AGP 8 need it, so apply it only there.
+def agpMajorVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize(".")[0].toInteger()
+if (agpMajorVersion < 9) {
+    apply plugin: "kotlin-android"
+}
 
 android {
     namespace = "io.github.sakibulrasel.pdf_renderer_bridge"
@@ -32,10 +38,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -62,5 +64,12 @@ android {
                showStandardStreams = true
             }
         }
+    }
+}
+
+// Works with both the Kotlin Android plugin (AGP 8) and built-in Kotlin (AGP 9+).
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
