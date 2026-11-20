@@ -29,9 +29,9 @@ final class PdfEditableExporter {
       PdfDocumentSourceType.file => await _readFile(source.path!),
     };
     try {
-      PdfPreflight.inspect(bytes).ensureIncrementallyWritable(
-        operation: 'Editable save',
-      );
+      PdfPreflight.inspect(
+        bytes,
+      ).ensureIncrementallyWritable(operation: 'Editable save');
     } on PdfException catch (error) {
       throw PdfEditableExportException(error.message, cause: error);
     }

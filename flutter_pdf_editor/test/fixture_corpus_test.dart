@@ -106,7 +106,9 @@ void main() {
 
     test('reports a missing file with PdfFileNotFoundException', () {
       expect(
-        parser.parse(const PdfDocumentSource.file('../fixtures/pdf/missing.pdf')),
+        parser.parse(
+          const PdfDocumentSource.file('../fixtures/pdf/missing.pdf'),
+        ),
         throwsA(isA<PdfFileNotFoundException>()),
       );
     });
@@ -143,19 +145,22 @@ void main() {
       return expectRoundTrip('form_incremental_update.pdf');
     });
 
-    test('keeps newlines, parentheses and backslashes through a save', () async {
-      const value = 'Line one\nLine (two) \\ end';
-      final bytes = _fixture('form_classic.pdf');
-      final field = _textField(
-        parser.parseBytes(bytes),
-        'full_name',
-      ).copyWith(value: value);
-      final output = await exporter.exportToBytes(
-        source: PdfDocumentSource.bytes(bytes),
-        formFields: <PdfFormField>[field],
-      );
-      expect(_textField(parser.parseBytes(output), 'full_name').value, value);
-    });
+    test(
+      'keeps newlines, parentheses and backslashes through a save',
+      () async {
+        const value = 'Line one\nLine (two) \\ end';
+        final bytes = _fixture('form_classic.pdf');
+        final field = _textField(
+          parser.parseBytes(bytes),
+          'full_name',
+        ).copyWith(value: value);
+        final output = await exporter.exportToBytes(
+          source: PdfDocumentSource.bytes(bytes),
+          formFields: <PdfFormField>[field],
+        );
+        expect(_textField(parser.parseBytes(output), 'full_name').value, value);
+      },
+    );
 
     test('rejects compressed object streams, keeping the fallback type', () {
       expect(

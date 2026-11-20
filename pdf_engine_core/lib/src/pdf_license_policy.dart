@@ -10,14 +10,12 @@ final class PdfLicensePolicy {
   });
 
   /// Creates a licensed policy.
-  const PdfLicensePolicy.licensed({
-    this.watermarkText = 'UNLICENSED',
-  }) : state = PdfLicenseState.licensed;
+  const PdfLicensePolicy.licensed({this.watermarkText = 'UNLICENSED'})
+    : state = PdfLicenseState.licensed;
 
   /// Creates an unlicensed policy.
-  const PdfLicensePolicy.unlicensed({
-    this.watermarkText = 'UNLICENSED',
-  }) : state = PdfLicenseState.unlicensed;
+  const PdfLicensePolicy.unlicensed({this.watermarkText = 'UNLICENSED'})
+    : state = PdfLicenseState.unlicensed;
 
   /// Current license state.
   final PdfLicenseState state;

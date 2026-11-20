@@ -268,7 +268,9 @@ class _PdfEditorScreenState extends State<PdfEditorScreen> {
       if (!mounted || selectedOptions == null) {
         return;
       }
-      final bytes = await _documentCreator.createBlankPdf(options: selectedOptions);
+      final bytes = await _documentCreator.createBlankPdf(
+        options: selectedOptions,
+      );
       await _setActiveDocument(
         source: PdfDocumentSource.bytes(bytes),
         label: _blankPdfLabel(selectedOptions),
@@ -694,8 +696,7 @@ class _PdfEditorScreenState extends State<PdfEditorScreen> {
                 if (config.actions.contains(PdfEditorAction.editable))
                   OutlinedButton(
                     style: compactButtonStyle,
-                    onPressed:
-                        source == null || _isExporting || isAuthoringMode
+                    onPressed: source == null || _isExporting || isAuthoringMode
                         ? null
                         : _exportEditable,
                     child: const Text('Editable'),

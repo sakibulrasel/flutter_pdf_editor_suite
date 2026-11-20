@@ -63,9 +63,7 @@ void main() {
     });
 
     test('rejects a header found after the first 1024 bytes', () {
-      final report = PdfPreflight.inspect(
-        _ascii('${'x' * 1100}%PDF-1.4\n'),
-      );
+      final report = PdfPreflight.inspect(_ascii('${'x' * 1100}%PDF-1.4\n'));
       expect(report.isPdf, isFalse);
       expect(report.version, isNull);
     });

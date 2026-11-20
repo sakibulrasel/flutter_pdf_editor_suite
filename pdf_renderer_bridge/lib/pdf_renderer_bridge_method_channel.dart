@@ -12,14 +12,11 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
 
   @override
   Future<PdfDocumentInfo> openDocument(PdfDocumentSource source) async {
-    final result = await _invokeMap(
-      'openDocument',
-      <String, Object?>{
-        'sourceType': source.type.name,
-        'path': source.path,
-        'bytes': source.bytes,
-      },
-    );
+    final result = await _invokeMap('openDocument', <String, Object?>{
+      'sourceType': source.type.name,
+      'path': source.path,
+      'bytes': source.bytes,
+    });
 
     if (result == null) {
       throw const PdfRenderException(
@@ -39,10 +36,10 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
     required int documentId,
     required int pageIndex,
   }) async {
-    final result = await _invokeMap(
-      'getPageInfo',
-      <String, Object?>{'documentId': documentId, 'pageIndex': pageIndex},
-    );
+    final result = await _invokeMap('getPageInfo', <String, Object?>{
+      'documentId': documentId,
+      'pageIndex': pageIndex,
+    });
 
     if (result == null) {
       throw const PdfRenderException(
@@ -114,7 +111,10 @@ class MethodChannelPdfRendererBridge extends PdfRendererBridgePlatform {
 
   /// Runs a channel call and turns platform errors into typed
   /// [PdfException]s.
-  Future<T> _guard<T>(Future<T> Function() call, {required String? path}) async {
+  Future<T> _guard<T>(
+    Future<T> Function() call, {
+    required String? path,
+  }) async {
     try {
       return await call();
     } on MissingPluginException catch (error) {
